@@ -1,0 +1,210 @@
+$itemWidth: 98%;
+$itemHeight: 58px;
+
+$itemImageWidth: 58px;
+$itemImageHeight: 58px;
+
+$itemDisplayNameHeight: 18px;
+$itemBioHeight: 34px;
+
+$itemPostedByHeight: 18px;
+
+.item {
+    width: $itemWidth;
+    height: $itemHeight;
+	border: 1px solid gray;
+	padding: 2px 0px;
+	margin: 2px;
+	transition: all 0.5s;
+
+	&:hover img {
+		opacity: 1;
+	}
+
+	&:hover .item-remove {
+		right: 3px;
+	}
+}
+
+.item-image {
+    height: $itemHeight;
+	float: left;
+	padding-left: 2px;
+}
+
+.item-info {
+	position: relative;
+    width: auto;
+    height: $itemHeight;
+	overflow: hidden;
+	padding-left: 5px;
+}
+
+.item-image img {
+    width: $itemImageWidth;
+    height: $itemImageHeight;
+    opacity: .5;
+    -webkit-transition: all .2s; /* For Safari 3.1 to 6.0 */
+	transition: all .2s;
+	
+	&:hover {
+		cursor: pointer;
+		border-radius: 50%;
+	}
+}
+
+.item-info-display_name {
+    height: $itemDisplayNameHeight;
+    font-weight: bolder;
+    font-size: 130%;
+	padding: 2px;
+	padding-bottom: 5px;
+	overflow: hidden;
+}
+
+.item-info-description {
+    height: $itemBioHeight;
+	font-size: 75%;
+	padding: 2px;
+}
+
+.item-info-posted_by {
+    height: $itemPostedByHeight;
+    font-size: 75%;
+	padding: 2px 2px 5px 5px;
+	position: absolute;
+	right: 1px;
+	bottom: -8px;
+	background-color: rgb(140, 0, 255);
+	border-top-left-radius: 10px;
+	border-top: 1px solid gray;
+	border-left: 1px solid gray;
+}
+
+.item-remove {
+    float: right; 
+    cursor: pointer;  
+    -webkit-transition: right .25s; /* For Safari 3.1 to 6.0 */
+    transition: right .25s;
+    position: relative;
+    right: 0px;
+	opacity: 0.5;
+	
+	&:hover {
+		opacity: 1;
+	}
+}
+
+.item-moveup {
+    float: right; 
+    cursor: pointer;  
+    -webkit-transition: all .2s; /* For Safari 3.1 to 6.0 */
+	transition: all .2s;
+    position: relative;
+	top: 1px;
+    right: 2px;
+	opacity: 0.7;
+	font-size: 20px;
+	width: 20px;
+	height: 20px;
+	text-align: center;
+	border: 1px solid #FFF;
+	border-radius: 10%;
+	
+	&:hover {
+		opacity: 1;
+		border-radius: 25%;
+	}
+
+	span {
+		top: -2px;
+		position: relative;
+		font-size: 110%;
+	}
+}
+
+.item-pintotop {
+    float: right; 
+    cursor: pointer;  
+    -webkit-transition: all .2s; /* For Safari 3.1 to 6.0 */
+	transition: all .2s;
+    position: relative;
+	top: 1px;
+    right: 3px;
+	opacity: 0.7;
+	font-size: 20px;
+	width: 20px;
+	height: 20px;
+	text-align: center;
+	border: 1px solid #FFF;
+	border-radius: 10%;
+	
+	&:hover {
+		opacity: 1;
+		border-radius: 25%;
+	}
+
+	span {
+		top: -5px;
+		position: relative;
+		font-size: 110%;
+	}
+}
+
+.item-disabled { 
+	opacity: 0.3;
+	cursor: default;
+	border-radius: 0%;
+
+	&:hover {
+		opacity: 0.2;
+		border-radius: 0%;
+	}
+}
+
+.item-confirm-group {
+    float: right;
+    padding: 2px 2px;
+
+    button {
+        margin: 0px 1px;
+        padding: 3px 4px;
+        border-radius: 0%;
+        border-width: 1px;
+        font-weight: bold;
+        opacity: 0.4;
+        cursor: pointer; 
+        -webkit-transition: all .2s; /* For Safari 3.1 to 6.0 */
+        transition: all .2s;
+
+        &:hover {
+            border-radius: 10%;
+            opacity: 1;
+        }
+    }
+}
+
+/*.item-pintotop {
+    float: right; 
+	user-select: none;
+	position: relative;
+	width: 16px;
+	height: 16px;
+	top: 1px;
+    right: 6px;
+	opacity: 0.5;
+	cursor: pointer;
+	border: 2px solid green;
+
+	transition: opacity .25s;
+	transition: transform .25s ease-in;
+
+	&:hover {
+		opacity: 1;
+	}
+
+	img {
+		width: 16px;
+		height: 16px;
+	}
+}*/

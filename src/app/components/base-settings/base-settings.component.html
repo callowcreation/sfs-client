@@ -1,0 +1,101 @@
+<div>
+    <span *ngIf="isConfig === false">
+        <div style="text-align: center; padding: 3px 0px 3px 0px;">
+            <h3>Settings</h3>
+        </div>
+    </span>
+    <div class="horizontal-boarder-top" [ngStyle]="{'border-color': borderColor}"></div>
+    <div class="row">
+        <div class="header">Appearance</div>
+        <div class="block">
+            <div><label for="color-font">Font</label></div>
+            <div><input type="color" name="color-font" value="{{color}}"
+                    (change)="settingChange('color', $event.target.value)">
+            </div>
+        </div>
+        <div class="block">
+            <div><label for="color-background">Background</label></div>
+            <div><input type="color" name="color-background" value="{{backgroundColor}}"
+                    (change)="settingChange('background-color', $event.target.value)"></div>
+        </div>
+        <div class="block">
+            <div><label for="color-borders">Borders</label></div>
+            <div><input type="color" name="color-borders" value="{{borderColor}}"
+                    (change)="settingChange('border-color', $event.target.value)"></div>
+        </div>
+    </div>
+</div>
+<div class="horizontal-boarder-top" [ngStyle]="{'border-color': borderColor}"></div>
+<div class="row">
+    <div class="header">Behaviour</div>
+    <div class="col">
+        <div class="col1">
+            <input type="checkbox" id="auto-shoutouts" name="auto-shoutouts" [checked]="autoShoutouts"
+                (change)="settingChange('auto-shoutouts', $event.target.checked)">
+        </div>
+        <div class="col2">
+            <label for="auto-shoutouts">Auto Shoutouts</label>
+        </div>
+    </div>
+</div>
+<div class="horizontal-boarder-top" [ngStyle]="{'border-color': borderColor}"></div>
+<div class="row">
+    <span class="header-label header-left horizontal-boarder-bottom"
+        [ngStyle]="{'border-color': borderColor}" *ngIf="isConfig === false && enableBits === true">Move Up
+        <span [@tierChangedTrigger]="bitsTier" class="header-bits">{{moveUpBitsAmount}}</span> bits</span>
+    <span class="header">Bits</span>
+    <span class="header-label header-right horizontal-boarder-bottom"
+        [ngStyle]="{'border-color': borderColor}" *ngIf="isConfig === false && enableBits === true">Pin to Top
+        <span [@tierChangedTrigger]="bitsTier" class="header-bits">{{pinToTopBitsAmount}}</span> bits</span>
+    <div class="col">
+        <div class="col1">
+            <input type="checkbox" id="enable-bits" name="enable-bits" [checked]="enableBits"
+                (change)="settingChange('enable-bits', $event.target.checked)">
+        </div>
+        <div class="col2">
+            <label for="enable-bits">Enable Bits</label>
+        </div>
+    </div>
+    <span *ngIf="isConfig === true">
+        <div class="col" *ngIf="enableBits === true">
+            <div class="col1">
+                <span name="tier-bits-move-up" type="text">
+                    <span [@tierChangedTrigger]="bitsTier">{{moveUpBitsAmount}}</span> bits
+                </span>
+            </div>
+            <div class="col2">
+                <label for="tier-bits-move-up">to move up.</label>
+            </div>
+        </div>
+        <div class="col" *ngIf="enableBits === true">
+            <div class="col1">
+                <span name="tier-bits-pin-to-top" type="text">
+                    <span [@tierChangedTrigger]="bitsTier">{{pinToTopBitsAmount}}</span> bits
+                </span>
+            </div>
+            <div class="col2">
+                <label for="tier-bits-pin-to-top">to pin to top.</label>
+            </div>
+        </div>
+    </span>
+    <div class="col" *ngIf="enableBits === true">
+        <div class="col1">
+            <select name="bits-tier" (change)="settingChange('bits-tier', $event.target.value)">
+                <option *ngFor="let option of options" [value]="option" [selected]="bitsTier === option">{{option}}
+                </option>
+            </select>
+        </div>
+        <div class="col2">
+            <label for="bits-tier">Select Tier</label>
+        </div>
+    </div>
+    <div class="col" *ngIf="enableBits === true">
+        <div class="col1">
+            <input name="pin-days" type="range" min="1" max="5" step="1" [value]="pinDays"
+                (change)="settingChange('pin-days', +$event.target.value)">
+        </div>
+        <div class="col2">
+            <label for="pin-days">Pin Days ({{pinDays}} days)</label>
+        </div>
+    </div>
+</div>

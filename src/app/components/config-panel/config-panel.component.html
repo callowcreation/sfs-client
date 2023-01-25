@@ -1,0 +1,13 @@
+<div class="config-settings-container" [ngStyle]="{'background-color': backgroundColor}">
+	<div class="config-settings-panel" [ngStyle]="{'border-color': borderColor}">
+		<div class="center information-panel">
+			<h2>Choose Panel Configuration</h2>
+			<p>Click the color boxes in the 'Appearance' section to change the colors.</p>
+			<p>Enable bits and select a tier in the 'Bits' section.</p>
+		</div>
+		<div class="horizontal-boarder-top" [ngStyle]="{'border-color': borderColor}"></div>
+		<app-base-settings [backgroundColor]="backgroundColor" [color]="color" [borderColor]="borderColor"
+			[isConfig]="isConfig" [autoShoutouts]="autoShoutouts" [enableBits]="enableBits" [bitsTier]="bitsTier" [pinDays]="pinDays"
+			(changeEvent)="receiveChange($event)"></app-base-settings>
+	</div>
+</div>

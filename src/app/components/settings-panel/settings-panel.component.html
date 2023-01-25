@@ -1,0 +1,9 @@
+<div>
+	<span class="settings-gear" (click)="gearClick()"><img src="gear.svg" /></span>
+	<div [ngClass]="{'show': showPopup === true, 'hide': showPopup !== true}"
+		[ngStyle]="{'background-color': backgroundColor, 'border-color': borderColor}" class="popup-panel">
+		<app-base-settings [backgroundColor]="backgroundColor" [color]="color" [borderColor]="borderColor"
+		[isConfig]="isConfig" [autoShoutouts]="autoShoutouts" [enableBits]="enableBits" [bitsTier]="bitsTier" [pinDays]="pinDays" 
+			(changeEvent)="receiveChange($event)"></app-base-settings>
+	</div>
+</div>

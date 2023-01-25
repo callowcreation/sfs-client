@@ -1,0 +1,28 @@
+$listWidth: 100%;
+
+.container {
+	padding: 15px 5px;
+}
+
+.items-list-no-pinned {
+    width: $listWidth;
+    height: 224px;
+    list-style-type: none;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.items-list-with-pinned {
+    width: $listWidth;
+    height: 168px;
+    list-style-type: none;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.pinned-items-list {
+    width: $listWidth;
+    list-style-type: none;
+    overflow-y: auto;
+    overflow-x: hidden;
+}

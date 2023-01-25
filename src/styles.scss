@@ -1,0 +1,73 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	overflow: hidden;
+}
+
+.center {
+	text-align: center;
+}
+
+.overlay {
+	position: fixed; /* Sit on top of the page content */
+	width: 100%; /* Full width (cover the whole page) */
+	height: 100%; /* Full height (cover the whole page) */
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+	z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+}
+
+.page-center {
+	position: absolute;
+	top:0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+  	
+    margin: auto;
+}
+
+.horizontal-boarder-top {
+	border-top: 1px solid black;
+}
+
+.horizontal-boarder-bottom {
+	border-bottom: 1px solid black;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+  
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+  
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey; 
+    border-radius: 10px;
+}
+   
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #2c2e2d;
+    border-radius: 10px;
+	&:hover {
+		background: #4e4d4d;
+	}
+}
