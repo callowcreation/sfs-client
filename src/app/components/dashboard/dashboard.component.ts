@@ -37,7 +37,7 @@ export class DashboardComponent implements OnInit {
 
 	ngOnInit(): void {
 
-		const { context$, authorized$, broadcast$ } = this.twitchLibService;
+		const { context$, authorized$, broadcast$, bits } = this.twitchLibService;
 
 		context$.subscribe(context => {
 			this.mode = context.mode;
@@ -61,6 +61,11 @@ export class DashboardComponent implements OnInit {
 		});
 
 		broadcast$.subscribe(obj => this.setSettingsValues(obj.settingsResponse));
+
+        bits.getProducts().then(products => {
+            console.log({'products-for-_global': JSON.parse(JSON.stringify(products))})
+            this.ebsService.postProducts(this.auth.token, products).subscribe();
+        });
 	}
 
 	private setSettingsValues(settingsResponse: SettingsResponse): void {
