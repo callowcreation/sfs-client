@@ -63,7 +63,6 @@ export class DashboardComponent implements OnInit {
 		broadcast$.subscribe(obj => this.setSettingsValues(obj.settingsResponse));
 
         bits.getProducts().then(products => {
-            console.log({'products-for-_global': JSON.parse(JSON.stringify(products))})
             this.ebsService.postProducts(this.auth.token, products).subscribe();
         });
 	}
