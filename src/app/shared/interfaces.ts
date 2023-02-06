@@ -58,7 +58,7 @@ export interface ShoutoutsResponse {
 }
 
 export interface ShoutoutResponse {
-	username: string;
+	usernames: string[];
 	posted_by: string;
 	add: boolean;
 	max_count: number;

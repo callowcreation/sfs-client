@@ -210,6 +210,11 @@ export class ShoutoutsItemsListComponent implements OnInit {
     }
 
     private setValues(pub_sub_message: PubSubMessage) {
+        /*
+            if multiple deletes from website show message to user
+            to reload the frame because something changed and 'we' 
+            could not update the frame
+        */
         console.log('setValues from pubsub', { pub_sub_message });
         if (pub_sub_message.shoutoutResponse) {
             this.addNewShoutoutToList(pub_sub_message);
@@ -349,19 +354,19 @@ export class ShoutoutsItemsListComponent implements OnInit {
     private addNewShoutoutToList(pub_sub_message: PubSubMessage) {
         const shoutoutResponse: ShoutoutResponse = pub_sub_message.shoutoutResponse;
 
-        const shoutout: ShoutoutItem = this.shoutoutItems.find(x => x.user.login === shoutoutResponse.username)
-        const index = this.shoutoutItems.indexOf(shoutout);
+        const shoutout: ShoutoutItem = this.shoutoutItems.find(x => x.user.login === shoutoutResponse.usernames[0]);
 
         if (shoutoutResponse.add === true) {
             if (shoutout) {
                 shoutout.pinToTop.show = this.pinnedItems.length > 0 ? false : true;
 
+                const index = this.shoutoutItems.indexOf(shoutout);
                 this.shoutoutItems.splice(index, 1);
                 this.shoutoutItems.unshift(shoutout);
 
                 this.enableMoveUpActionItems(this.hasMoveUpCooldownExpired());
             } else {
-                const users$ = this.ebsService.postUsers(this.auth.token, [shoutoutResponse.username]);
+                const users$ = this.ebsService.postUsers(this.auth.token, [shoutoutResponse.usernames[0]]);
                 users$.subscribe(users => {
                     const shoutoutItem = this.createShoutoutItemForTop(users[0], shoutoutResponse.posted_by);
 
@@ -375,10 +380,13 @@ export class ShoutoutsItemsListComponent implements OnInit {
             }
 
             this.empty = false;
-        } else if (index !== -1) { // removing
-            this.shoutoutItems.splice(index, 1);
+        } else {
+            for (let i = 0; i < shoutoutResponse.usernames.length; i++) {
+                const username = shoutoutResponse.usernames[i];
+                const index = this.shoutoutItems.findIndex(x => x.user.login === username);
+                this.shoutoutItems.splice(index, 1);
+            }
             this.empty = this.shoutoutItems.length === 0;
-
             this.enableMoveUpActionItems(this.hasMoveUpCooldownExpired());
         }
     }
