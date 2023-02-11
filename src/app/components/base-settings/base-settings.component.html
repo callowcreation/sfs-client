@@ -89,13 +89,9 @@
             <label for="bits-tier">Select Tier</label>
         </div>
     </div>
-    <!-- <div class="col" *ngIf="enableBits === true">
+    <div class="col">
         <div class="col1">
-            <input name="pin-days" type="range" min="1" max="5" step="1" [value]="pinDays"
-                (change)="settingChange('pin-days', +$event.target.value)">
+            <button (click)="moreSettings()" style="padding: 0px 2px; cursor: pointer; border-radius: 5px;">More Settings</button>
         </div>
-        <div class="col2">
-            <label for="pin-days">Pin Days ({{pinDays}} days)</label>
-        </div>
-    </div> -->
+    </div>
 </div>

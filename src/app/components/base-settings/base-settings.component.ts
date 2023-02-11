@@ -83,4 +83,9 @@ export class BaseSettingsComponent {
             this.pinToTopBitsAmount = pinToTopAmount[this.bitsTier];
         });
     }
+
+    moreSettings() {
+        console.log('opening...')
+        window.open('https://shoutoutsforstreamers.com/configuration');
+    }
 }

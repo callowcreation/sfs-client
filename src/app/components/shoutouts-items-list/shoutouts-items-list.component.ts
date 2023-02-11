@@ -407,7 +407,7 @@ export class ShoutoutsItemsListComponent implements OnInit {
                 shoutoutItem.pinToTop.enabled = false;
                 shoutoutItem.isPinned = true;
                 this.pinnedItems.unshift(shoutoutItem);
-
+                this.empty = false;
                 try {
                     const pinToToExpiresTimeMs = this.getPinDaysInMs();
                     this.applyPinToTopCooldown(shoutoutsResponse.pinned.timestamp + pinToToExpiresTimeMs);
