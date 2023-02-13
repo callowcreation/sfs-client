@@ -106,7 +106,7 @@ export interface TransError {
 }
 
 export interface PubSubMessage {
-	environment?: 'dev' | 'prod';
+	cycle?: 'dev' | 'staged' | 'prod';
 	version: string;
 	timestamp: number;
 	error?: string;

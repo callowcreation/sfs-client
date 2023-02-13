@@ -56,7 +56,7 @@ export class TwitchLibService {
             this.ext.rig.log('Received broadcast message', target, contentType, pub_sub_message, `isProduction: ${environment.production}`);
             console.log('Received broadcast message', target, contentType, pub_sub_message, `isProduction: ${environment.production}`);
             this.zone.run(() => {
-                const { version, timestamp } = pub_sub_message;
+                const { cycle, version, timestamp } = pub_sub_message;
 
                 if (this.broadcast_listen_timestamps.includes(timestamp)) { // still a bug where there are multiple messages received
                     console.log(`--- Double response for ${timestamp}`, pub_sub_message);
@@ -64,7 +64,7 @@ export class TwitchLibService {
                 }
                 this.broadcast_listen_timestamps.push(timestamp);
 
-                if (version === environment.version) {
+                if (version === environment.version && cycle === environment.cycle) {
                     this.broadcast$.next(pub_sub_message);
                 }
                 //this.broadcast$.next(obj);
