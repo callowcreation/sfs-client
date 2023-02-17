@@ -5,7 +5,8 @@
 export const environment = {
     production: false,
     version: '0.3.1',
-    cycle: 'dev'
+    cycle: 'dev',
+    pinMultiplier: 0.0001, //  * 0.0001 is for testing to shorten the time - ~25sec per 3 days
 };
 
 /*

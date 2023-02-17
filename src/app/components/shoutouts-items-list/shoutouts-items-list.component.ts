@@ -2,6 +2,7 @@ import { Component, OnInit, Input, NgZone } from '@angular/core';
 
 import { EBSService } from 'src/app/services/ebs.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { environment } from 'src/environments/environment';
 
 import { TwitchLibService } from '../../services/twitch-lib.service'
 import { Authorized, TransactionResponse, PubSubMessage, ShoutoutResponse, ShoutoutsResponse, PinnedExpired, User, TransError } from '../../shared/interfaces'
@@ -257,7 +258,7 @@ export class ShoutoutsItemsListComponent implements OnInit {
 
         console.log('received "Move Up" transactionResponse', { transactionResponse });
         //console.log('-- BEFORE change', { shoutouts: this.shoutoutItems });
-        this.shoutoutItems = [];
+        // this.shoutoutItems = [];
         if (this.shoutoutItems.length === 0) {
             console.log('------ BUG move-up shoutoutItems array is now empty - requesting new list from server');
             this.transError = {
@@ -294,7 +295,7 @@ export class ShoutoutsItemsListComponent implements OnInit {
         this.localStorageService.storeTransactionPinToTopExpires(this.auth.channelId, transactionResponse.timestamp + pinToToExpiresTimeMs)
 
         console.log('received "Pin to Top" transactionResponse', { transactionResponse });
-        this.shoutoutItems = [];
+        // this.shoutoutItems = [];
         if (this.shoutoutItems.length === 0) {
             console.log('------ BUG pin-to-top shoutoutItems array is now empty - requesting new list from server');
             this.transError = {
@@ -333,8 +334,7 @@ export class ShoutoutsItemsListComponent implements OnInit {
 
     private getPinDaysInMs() {
         const pinnedExpireDays = +this.localStorageService.loadSettings(this.auth.channelId)['pin-days'];
-        const pinToToExpiresTimeMs = pinnedExpireDays * (24 * (60 * (60 * 1000))) * 0.0001; //  * 0.0001 is for testing to shorten the time
-        return pinToToExpiresTimeMs;
+        return pinnedExpireDays * (24 * (60 * (60 * 1000))) * environment.pinMultiplier;
     }
 
     private removeResponseFromTimestamps(timestamp: number) {
