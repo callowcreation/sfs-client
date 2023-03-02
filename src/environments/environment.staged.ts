@@ -1,6 +1,25 @@
+// This file can be replaced during build by using the `fileReplacements` array.
+// `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
+// The list of file replacements can be found in `angular.json`.
+
 export const environment = {
     production: true,
     version: '0.3.1',
     cycle: 'staged',
-    pinMultiplier: 0.001, //  * 0.001 is for testing to shorten the time - ~4mins per 3 days
+    backend: {
+        api: 'https://us-central1-shoutoutsdev-38a1d.cloudfunctions.net/app'
+    },
+    twitch: {
+        api: 'https://api.twitch.tv/helix',
+        oauth: 'https://id.twitch.tv/oauth2',
+    }
 };
+
+/*
+ * For easier debugging in development mode, you can import the following file
+ * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
+ *
+ * This import should be commented out in production mode because it will have a negative impact
+ * on performance if an error is thrown.
+ */
+// import 'zone.js/dist/zone-error';  // Included with Angular CLI.

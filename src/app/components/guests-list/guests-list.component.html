@@ -1,0 +1,13 @@
+<form [formGroup]="form">
+    <mat-list style="max-width: 400px; margin: auto;">
+        <div mat-subheader><h3>Shoutouts for Streamers</h3></div>
+        <mat-list-item lines="3" *ngFor="let guest of guests">
+            <mat-icon matListItemIcon>
+                <img style="width: 72px; height: 72px;" src="{{guest.streamer_id | twitch_user:'profile_image_url'}}">
+            </mat-icon>
+            <span matListItemTitle>{{guest.streamer_id | twitch_user:'display_name'}}</span>
+            <span>{{guest.streamer_id | twitch_user:'description'}}</span>
+            <!-- <div>{{guest.poster_id | twitch_user:'display_name'}}</div> -->
+        </mat-list-item>
+    </mat-list>
+</form>

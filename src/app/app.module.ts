@@ -1,52 +1,47 @@
+import { ModuleWithProviders, NgModule, Type } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule, ErrorHandler } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
 
-import { WindowRef } from './window-ref';
-
-import { LocalStorageService } from './services/local-storage.service';
-import { ErrorHandlerService } from './services/error-handler.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatListModule } from '@angular/material/list';
+import { MatSelectModule } from '@angular/material/select';
 
 import { AppComponent } from './app.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { MainHeaderComponent } from './components/main-header/main-header.component';
-import { ShoutoutsItemsListComponent } from './components/shoutouts-items-list/shoutouts-items-list.component';
-import { LoaderPanelComponent } from './components/loader-panel/loader-panel.component';
-import { SettingsPanelComponent } from './components/settings-panel/settings-panel.component';
-import { ErrorPanelComponent } from './components/error-panel/error-panel.component';
-import { ListItemComponent } from './components/list-item/list-item.component';
-import { ConfigPanelComponent } from './components/config-panel/config-panel.component';
-import { BaseSettingsComponent } from './components/base-settings/base-settings.component';
-import { TransErrorPanelComponent } from './components/trans-error-panel/trans-error-panel.component';
+import { HomeComponent } from './components/home/home.component';
+
+import { WindowRef } from './window-ref';
+import { GuestsListComponent } from './components/guests-list/guests-list.component';
+
+import { UserPipe } from './pipes/user.pipe';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenHeaderInterceptor } from './interceptors/token-header.interceptor';
+import { UsersInterceptor } from './interceptors/users.interceptor';
+
+const matModules: (any[] | Type<any> | ModuleWithProviders<{}>) = [
+    MatFormFieldModule,
+    MatListModule,
+    MatSelectModule,
+];
 
 @NgModule({
-	declarations: [
-		AppComponent,
-		DashboardComponent,
-		MainHeaderComponent,
-		ShoutoutsItemsListComponent,
-		LoaderPanelComponent,
-		SettingsPanelComponent,
-		ErrorPanelComponent,
-		ListItemComponent,
-		ConfigPanelComponent,
-		BaseSettingsComponent,
-		TransErrorPanelComponent
-	],
-	imports: [
-		BrowserModule,
-		BrowserAnimationsModule,
-		HttpClientModule
-	],
-	providers: [
-		WindowRef,
-		LocalStorageService,
-		{
-			provide: ErrorHandler,
-			useClass: ErrorHandlerService,
-		},
-	],
-	bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        HomeComponent,
+        GuestsListComponent,
+        UserPipe
+    ],
+    imports: [
+        BrowserModule,
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        matModules
+    ],
+    providers: [
+        WindowRef,
+        { provide: HTTP_INTERCEPTORS, useClass: TokenHeaderInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: UsersInterceptor, multi: true },
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

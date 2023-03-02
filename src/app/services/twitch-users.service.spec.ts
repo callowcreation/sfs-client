@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { TwitchLibService } from './twitch-lib.service';
+import { TwitchUsersService } from './twitch-users.service';
 
-describe('TwitchLibService', () => {
-  let service: TwitchLibService;
+describe('TwitchUsersService', () => {
+  let service: TwitchUsersService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(TwitchLibService);
+    service = TestBed.inject(TwitchUsersService);
   });
 
   it('should be created', () => {

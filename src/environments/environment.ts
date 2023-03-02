@@ -2,5 +2,11 @@ export const environment = {
     production: true,
     version: '0.3.1',
     cycle: 'prod',
-    pinMultiplier: 1.0 //  * 1.0 is for live production full time
-};
+    backend: {
+        api: 'https://us-central1-shoutoutsdev-38a1d.cloudfunctions.net/app'
+    },
+    twitch: {
+        api: 'https://api.twitch.tv/helix',
+        oauth: 'https://id.twitch.tv/oauth2',
+    }
+}
