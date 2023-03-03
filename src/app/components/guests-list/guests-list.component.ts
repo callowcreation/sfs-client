@@ -37,6 +37,7 @@ export class GuestsListComponent {
                 // ];
 
                 const smallData = data.map((x: any) => ([`login=${x.streamer_id}`, `login=${x.poster_id}`])).flat().splice(0, 10);
+                // smallData.length = 3;
                 twitchUsers.append(smallData) //['login=callowcreation', 'login=naivebot']
                     .then(() => {
                         this.guests = this.removeDuplicates(data);

@@ -1,20 +1,22 @@
-<ul>
-    <li class="row-layout" *ngFor="let guest of guests">
-        <div>
-            <a href="https://twitch.tv/{{guest.streamer_id | twitch_user:'login'}}" target="_blank">
-                <img class="profile_image_url" src="{{guest.streamer_id | twitch_user:'profile_image_url'}}">
-            </a>
-        </div>
-        <div class="grow1">
-            <div class="display_name">{{guest.streamer_id | twitch_user:'display_name'}}</div>
-            <div class="description">
-                {{guest.streamer_id | twitch_user:'description' | truncate:60}}
+<div style="height: 230px; overflow-y: auto; overflow-x: hidden;">
+    <ul>
+        <li class="row-layout" *ngFor="let guest of guests">
+            <div>
+                <a href="https://twitch.tv/{{guest.streamer_id | twitch_user:'login'}}" target="_blank">
+                    <img class="profile_image_url" src="{{guest.streamer_id | twitch_user:'profile_image_url'}}">
+                </a>
             </div>
-        </div>
-        <span class="action-layout">
-            <div class="action-item">🖈</div>
-            <div class="action-item">&#8682;</div>
-        </span>
-        <!-- transform: scale(1.5);  -->
-    </li>
-</ul>
+            <div class="grow1">
+                <div class="display_name">{{guest.streamer_id | twitch_user:'display_name'}}</div>
+                <div class="description">
+                    {{guest.streamer_id | twitch_user:'description' | truncate:60}}
+                </div>
+            </div>
+            <span class="action-layout">
+                <div class="action-item">🖈</div>
+                <div class="action-item">&#8682;</div>
+            </span>
+            <!-- transform: scale(1.5);  -->
+        </li>
+    </ul>
+</div>

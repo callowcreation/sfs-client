@@ -1,18 +1,20 @@
 ul {
     margin: 0;
     padding: 0;
+    width: 99%;
 }
 
 img {
     width: 58px;
     height: 58px;
+    margin: 2px;
 }
 
 .row-layout {
     position: relative;
-    height: 58px;
-    border: 2px solid blue;
-    margin: 1px 0px;
+    height: 62px;
+    border: 1px solid blue;
+    margin: 2px 0px;
     width: 100%;
     overflow: hidden;
 
@@ -34,8 +36,8 @@ img {
 
 .display_name {
     // background-color: rgb(179, 0, 255);
-    padding-left: 6px;
-    width: 160px;
+    padding-left: 4px;
+    width: 174px;
     font-size: 110%;
     font-weight: 700;
     overflow: hidden;
@@ -54,7 +56,7 @@ img {
 .action-layout {
     // background-color: aqua;
     position: absolute;
-    right: 2px;
+    right: 3px;
     top: 2px;
 
     display: flex;
@@ -62,7 +64,7 @@ img {
 }
 
 .action-item {
-    background-color: rgb(73, 165, 42);
+    // background-color: rgb(73, 165, 42);
 
     transition: all .2s;
     border: 1px solid blue;
