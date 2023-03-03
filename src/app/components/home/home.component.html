@@ -1,4 +1,10 @@
-<div style="margin: 0; text-align: center; height: 38px;">
-    <h2>Shoutouts for Streamers</h2>
+<div style="text-align: center; position: absolute;" [ngStyle]="{
+        'color': (settings.values$ | async)?.['color'],
+        'border-color': (settings.values$ | async)?.['border-color'],
+        'background-color': (settings.values$ | async)?.['background-color']
+    }">
+    <div style="background-color: transparent;">
+        <h2>Shoutouts for Streamers</h2>
+    </div>
+    <app-guests-list></app-guests-list>
 </div>
-<app-guests-list></app-guests-list>

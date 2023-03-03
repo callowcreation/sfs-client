@@ -19,6 +19,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenHeaderInterceptor } from './interceptors/token-header.interceptor';
 import { UsersInterceptor } from './interceptors/users.interceptor';
 import { TruncatePipe } from './pipes/truncate.pipe';
+import { BackendHeaderInterceptor } from './interceptors/backend-header.interceptor';
 
 const matModules: (any[] | Type<any> | ModuleWithProviders<{}>) = [
     MatFormFieldModule,
@@ -45,6 +46,7 @@ const matModules: (any[] | Type<any> | ModuleWithProviders<{}>) = [
     ],
     providers: [
         WindowRef,
+        { provide: HTTP_INTERCEPTORS, useClass: BackendHeaderInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: TokenHeaderInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: UsersInterceptor, multi: true },
     ],

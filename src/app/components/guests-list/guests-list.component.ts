@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { MatListOption } from '@angular/material/list';
 import { Guest } from 'src/app/interfaces/guest';
 import { TwitchAuth } from 'src/app/interfaces/twitch-auth';
 import { BackendApiService } from 'src/app/services/backend-api.service';
+import { SettingsService } from 'src/app/services/settings.service';
 import { TwitchLibService } from 'src/app/services/twitch-lib.service';
 import { TwitchUsersService } from 'src/app/services/twitch-users.service';
 
@@ -13,21 +12,14 @@ import { TwitchUsersService } from 'src/app/services/twitch-users.service';
     styleUrls: ['./guests-list.component.scss']
 })
 export class GuestsListComponent {
+
     guests: any[] = [];
-    selected: MatListOption[] = []
 
-    form = new FormGroup({
-        guests: new FormControl(),
-    });
-
-    canDelete: boolean = false;
-
-    constructor(twitchLib: TwitchLibService, private twitchUsers: TwitchUsersService, backendApi: BackendApiService) {
-
+    constructor(twitchLib: TwitchLibService, private twitchUsers: TwitchUsersService, backendApi: BackendApiService, public settings: SettingsService) {
+        
         twitchLib.authorized$.subscribe((auth: TwitchAuth) => {
             backendApi.get<any>(`/shoutouts/${75987197}`).subscribe(data => {
-                console.log(data)
-
+                // console.log(data)
                 // const guests: any[] = [
                 //     {
                 //         streamer_id: 'callowcreation',
@@ -36,13 +28,12 @@ export class GuestsListComponent {
                 //     }
                 // ];
 
-                const smallData = data.map((x: any) => ([`login=${x.streamer_id}`, `login=${x.poster_id}`])).flat().splice(0, 10);
+                const smallData = data.map((x: any) => ([`login=${x.streamer_id}`, `login=${x.poster_id}`])).flat();//.splice(0, 10);
                 // smallData.length = 3;
                 twitchUsers.append(smallData) //['login=callowcreation', 'login=naivebot']
                     .then(() => {
                         this.guests = this.removeDuplicates(data);
-                        this.form.setValue({ guests: data });
-                        console.log(this.guests)
+                        // console.log(this.guests)
                     });
             });
         });

@@ -2,7 +2,12 @@
 * {
 	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
-
+body {
+    margin: 0 0;
+    padding: 0 0;
+    height: 300px;
+    position: relative;
+}
 /* width */
 ::-webkit-scrollbar {
     width: 10px;
@@ -16,9 +21,9 @@
    
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    background: #2b2d2c67;
+    background: #2b2d2c94;
     border-radius: 10px;
 	&:hover {
-		background: #4e4d4d;
+		background: #2b2d2ce8;
 	}
 }

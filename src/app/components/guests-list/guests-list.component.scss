@@ -1,5 +1,11 @@
+.list-container {
+    height: 230px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
 ul {
-    margin: 0;
+    margin: 0px 20px 0px 5px;
     padding: 0;
     width: 99%;
 }
@@ -13,9 +19,11 @@ img {
 .row-layout {
     position: relative;
     height: 62px;
-    border: 1px solid blue;
+    // border: 1px solid blue;
+    border-width: 1px;
+    border-style: solid;
     margin: 2px 0px;
-    width: 100%;
+    width: 98%;
     overflow: hidden;
 
     display: flex;
@@ -36,20 +44,21 @@ img {
 
 .display_name {
     // background-color: rgb(179, 0, 255);
+    padding-top: 2px;
     padding-left: 4px;
     width: 174px;
     font-size: 110%;
     font-weight: 700;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    text-align: left;
 }
 
 .description {
     padding-top: 3px;
     padding-left: 6px;
-    line-height: 1.0em;
+    line-height: 1.1em;
     font-size: 96%;
     height: 38px;
+    text-align: left;
     // background-color: rgb(255, 225, 0);
 }
 
@@ -67,7 +76,9 @@ img {
     // background-color: rgb(73, 165, 42);
 
     transition: all .2s;
-    border: 1px solid blue;
+    // border: 1px solid blue;
+    border-width: 1px;
+    border-style: solid;
     width: 20px;
     height: 20px;
     text-align: center;
@@ -75,7 +86,7 @@ img {
     opacity: 0.8;
 
     &:hover {
-        border-radius: 25%;
+        border-radius: 30%;
         opacity: 1;
     }
 }
