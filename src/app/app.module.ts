@@ -5,6 +5,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
@@ -16,11 +18,14 @@ import { UserPipe } from './pipes/user.pipe';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenHeaderInterceptor } from './interceptors/token-header.interceptor';
 import { UsersInterceptor } from './interceptors/users.interceptor';
+import { TruncatePipe } from './pipes/truncate.pipe';
 
 const matModules: (any[] | Type<any> | ModuleWithProviders<{}>) = [
     MatFormFieldModule,
     MatListModule,
     MatSelectModule,
+    MatIconModule,
+    MatButtonModule,
 ];
 
 @NgModule({
@@ -28,7 +33,8 @@ const matModules: (any[] | Type<any> | ModuleWithProviders<{}>) = [
         AppComponent,
         HomeComponent,
         GuestsListComponent,
-        UserPipe
+        UserPipe,
+        TruncatePipe
     ],
     imports: [
         BrowserModule,

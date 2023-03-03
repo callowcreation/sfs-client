@@ -1,7 +1,79 @@
+ul {
+    margin: 0;
+    padding: 0;
+}
+
 img {
-    width: 72px;
-    height: 72px;
+    width: 58px;
+    height: 58px;
+}
+
+.row-layout {
+    position: relative;
+    height: 58px;
+    border: 2px solid blue;
+    margin: 1px 0px;
+    width: 100%;
+    overflow: hidden;
+
+    display: flex;
+}
+
+.grow1 {
+    flex-grow: 1;
+}
+
+.profile_image_url {
+    transition: all .2s;
+    cursor: pointer;
+
+    &:hover {
+        border-radius: 50%;
+    }
+}
+
+.display_name {
+    // background-color: rgb(179, 0, 255);
+    padding-left: 6px;
+    width: 160px;
+    font-size: 110%;
+    font-weight: 700;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.description {
+    padding-top: 3px;
+    padding-left: 6px;
+    line-height: 1.0em;
+    font-size: 96%;
+    height: 38px;
+    // background-color: rgb(255, 225, 0);
+}
+
+.action-layout {
+    // background-color: aqua;
     position: absolute;
-    top: 0;
-    left: 0;
+    right: 2px;
+    top: 2px;
+
+    display: flex;
+    gap: 2px;
+}
+
+.action-item {
+    background-color: rgb(73, 165, 42);
+
+    transition: all .2s;
+    border: 1px solid blue;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    cursor: pointer;
+    opacity: 0.8;
+
+    &:hover {
+        border-radius: 25%;
+        opacity: 1;
+    }
 }
