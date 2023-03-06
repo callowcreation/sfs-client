@@ -52,44 +52,48 @@ export class GuestsListComponent {
         twitchLib.pubsub$.subscribe(value => {
             console.log({ pubsub: value })
 
-            const tmp = this.guests[value.index - 1];
-            this.guests[value.index - 1] = this.guests[value.index];
-            this.guests[value.index] = tmp;
+            if (value.internal) {
+                this.disable = value.disable;
+                return;
+            }
 
-            this.disable['move-up'] = true;
-            timer(3000).pipe(first()).subscribe(() => {
-                this.disable['move-up'] = false;
-            });
+            if (value.action === 'move-up') {
+                this.disable['move-up'] = true;
+
+                const tmp = this.guests[value.index - 1];
+                this.guests[value.index - 1] = this.guests[value.index];
+                this.guests[value.index] = tmp;
+
+                timer(3000).pipe(first()).subscribe(() => {
+                    this.disable['move-up'] = false;
+                    this.disable['actions'] = false;
+                });
+            }
         });
     }
 
     actionClick(guest: Guest, action: 'move-up' | 'pin-to-top') {
         if (this.disable['move-up']) return;
         this.disable['move-up'] = true;
+        this.disable['actions'] = true;
         //event.target.style.opacity = '0.0';
-        // this.twitchLib.send({ guest, action });
+        
+        this.twitchLib.send({ internal: true, disable: this.disable });
+        this.zone.run(() => {
+        });
         const bits = this.twitchLib.bits;
 
         bits.onTransactionCancelled(() => {
             console.log('Transaction move up was cancelled');
-            this.zone.run(() => {
-                timer(1000).pipe(first()).subscribe(() => {
-                    this.disable['move-up'] = false;
-                });
+            timer(1000).pipe(first()).subscribe(() => {
+                this.disable['move-up'] = false;
+                this.disable['actions'] = false;
+            
+                this.twitchLib.send({ internal: true, disable: this.disable });
             });
         });
 
         bits.onTransactionComplete((transaction: any) => {
-            const payload = {
-                transaction,
-                environment: {
-                    production: environment.production,
-                    version: environment.version,
-                    cycle: environment.cycle,
-                }
-            };
-            //this.twitchLib.send(payload);
-
             this.backendApi.put(`/shoutouts/${75987197}/move-up`, { key: guest.key }).subscribe();
         });
 
