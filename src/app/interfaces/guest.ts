@@ -3,4 +3,5 @@ export interface Guest {
     poster_id: string;
     timestamp: number;
     legacy: boolean;
+    key: string;
 }

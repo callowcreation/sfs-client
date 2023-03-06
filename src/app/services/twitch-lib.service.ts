@@ -8,10 +8,18 @@ import { WindowRef } from '../window-ref';
     providedIn: 'root'
 })
 export class TwitchLibService {
+    
+    private _pubsub$: Subject<any> = new Subject<any>();
 
     authorized$: Subject<TwitchAuth> = new Subject<TwitchAuth>();
 
     auth!: TwitchAuth;
+
+    broadcast_listen_timestamps: number[] = [];
+
+    public get pubsub$(): Subject<any> {
+        return this._pubsub$;
+    }
 
     private get ext(): any {
         return this.winRef.nativeWindow.Twitch.ext;
@@ -33,10 +41,28 @@ export class TwitchLibService {
 
         this.ext.listen('broadcast', (target: string, contentType: string, message: string) => {
             const pub_sub_message = JSON.parse(message);
-            console.log({msg: 'Received broadcast message', target, contentType, pub_sub_message, cycle: `isProduction: ${environment.production}`});
-            this.zone.run(() => {
+            const { cycle, version, timestamp } = pub_sub_message;
 
+            if (this.broadcast_listen_timestamps.includes(timestamp)) { // still a bug where there are multiple messages received
+                console.log(`--- Double response for ${timestamp}`, pub_sub_message);
+                return;
+            }
+            this.broadcast_listen_timestamps.push(timestamp);
+
+            this.zone.run(() => {
+                console.log({msg: 'Received broadcast message', target, contentType, pub_sub_message, cycle: `isProduction: ${environment.production}`});
+                if (version === environment.version && cycle === environment.cycle) {
+                    this._pubsub$.next(pub_sub_message);
+                }
             });
+
+
+
+
+
+
+
+
         });
     }
     

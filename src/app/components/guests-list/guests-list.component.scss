@@ -37,7 +37,7 @@ img {
 .profile_image_url {
     transition: all .2s;
     cursor: pointer;
-    opacity: 0.8;
+    opacity: 0.6;
 
     &:hover {
         border-radius: 50%;
@@ -92,5 +92,28 @@ img {
     &:hover {
         border-radius: 30%;
         opacity: 1;
+    }
+}
+
+.action-disabled {
+    opacity: 0.5;
+    cursor: default;
+
+    &:hover {
+        cursor: not-allowed;
+        opacity: 0.3;
+    }
+}
+
+.poster_img {
+    width: 24px; 
+    height: 24px; 
+    position: absolute; 
+    bottom: 0px; 
+    right: 0px;
+    opacity: 0.3;
+
+    &:hover {
+        opacity: 0.8;
     }
 }
