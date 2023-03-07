@@ -41,7 +41,11 @@ export class TwitchLibService {
 
         this.ext.listen('broadcast', (target: string, contentType: string, message: string) => {
             const pub_sub_message = JSON.parse(message);
-            const { cycle, version, timestamp, internal } = pub_sub_message;
+            console.log('--------------------------------------------------------')
+            console.log({pub_sub_message})
+            console.log('--------------------------------------------------------')
+            const { internal } = pub_sub_message;
+            const { cycle, version, timestamp } = pub_sub_message.environment;
 
             if(internal) {
                 this.zone.run(() => {
@@ -67,6 +71,15 @@ export class TwitchLibService {
     }
     
     send(message: any) {
-        this.ext.send('broadcast', 'application/json', JSON.stringify(message));
+        this.ext.send('broadcast', 'application/json', JSON.stringify(attachEnvironment(message)));
     }
+}
+
+function attachEnvironment(payload: any): any {
+    payload.environment = {
+        cycle: environment.cycle,
+        version: environment.version,
+        timestamp: new Date(new Date().toLocaleString("en-US", { timeZone: "America/Los_Angeles" })),
+    };
+    return payload;
 }

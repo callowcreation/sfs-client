@@ -1,4 +1,30 @@
-<div class="list-container">
+<div class="list-container-pinned">
+    <ul>
+        <li class="row-layout" *ngFor="let guest of pinned">
+            <div>
+                <a href="https://twitch.tv/{{guest.streamer_id | twitch_user:'login'}}" target="_blank">
+                    <img class="profile_image_url" title="{{guest.streamer_id | twitch_user:'display_name'}}"
+                        src="{{guest.streamer_id | twitch_user:'profile_image_url'}}">
+                </a>
+                <img class="poster_img" title="{{guest.poster_id | twitch_user:'display_name'}}"
+                    src="{{guest.poster_id | twitch_user:'profile_image_url'}}">
+            </div>
+            <div class="grow1">
+                <div class="display_name">{{guest.streamer_id | twitch_user:'display_name'}}</div>
+                <div class="description">
+                    {{guest.streamer_id | twitch_user:'description' | truncate:80}}
+                </div>
+            </div>
+            <span class="action-layout">
+                <div class="action-item">
+                    <img class="poster_img" title="{{guest.poster_id | twitch_user:'display_name'}}"
+                    src="{{guest.poster_id | twitch_user:'profile_image_url'}}">
+                </div>
+            </span>
+        </li>
+    </ul>
+</div>
+<div class="list-container" [ngClass]="{'full-height': pinned.length === 0, 'pinned-height': pinned.length > 0}">
     <ul>
         <li class="row-layout" *ngFor="let guest of guests">
             <div>
@@ -16,7 +42,7 @@
                 </div>
             </div>
             <span class="action-layout">
-                <div class="action-item" (click)="actionClick(guest, 'pin-to-top')" [ngClass]="{'action-disabled' : disable['actions'] || disable['pin-to-top'], '': !(disable['actions'] || disable['pin-to-top'])}">🖈</div>
+                <div class="action-item" *ngIf="pinned.length === 0" (click)="actionClick(guest, 'pin-item')" [ngClass]="{'action-disabled' : disable['actions'] || disable['pin-item'], '': !(disable['actions'] || disable['pin-item'])}">🖈</div>
                 <div class="action-item" (click)="actionClick(guest, 'move-up')" [ngClass]="{'action-disabled' : disable['actions'] || disable['move-up'], '': !(disable['actions'] || disable['move-up'])}">&#8682;</div>
             </span>
         </li>

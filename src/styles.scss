@@ -7,6 +7,8 @@ body {
     padding: 0 0;
     height: 300px;
     position: relative;
+    overflow-y: hidden;
+    overflow-x: hidden;
 }
 /* width */
 ::-webkit-scrollbar {
