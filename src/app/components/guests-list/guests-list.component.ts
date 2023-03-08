@@ -89,12 +89,17 @@ export class GuestsListComponent {
             } else if (value.action === 'pin-item') {
                 this.disable['pin-item'] = true;
 
-                this.patrons = this.guests.splice(value.index, 1);
-
-                timer(3000).pipe(first()).subscribe(() => {
-                    this.disable['pin-item'] = false;
-                    this.disable['actions'] = false;
-                });
+                const patron: Patron = this.guests.splice(value.index, 1)[0] as Patron;
+                patron.pinner_id = value.pinner_id;
+                const flatData = [patron].map(this.patronIds).flat();
+                twitchUsers.append(flatData)
+                    .then(() => {
+                        this.patrons = this.removeDuplicates([patron]);
+                        timer(3000).pipe(first()).subscribe(() => {
+                            this.disable['pin-item'] = false;
+                            this.disable['actions'] = false;
+                        });
+                    });
             }
         });
     }
