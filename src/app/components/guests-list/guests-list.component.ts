@@ -31,7 +31,7 @@ export class GuestsListComponent {
 
         twitchLib.authorized$.subscribe((auth: TwitchAuth) => {
             backendApi.get<any>(`/shoutouts/${75987197}`).pipe(first()).subscribe(data => {
-                // console.log(data)
+                console.log(data)
                 const flatData = data.map(this.guestIds).flat();
                 twitchUsers.append(flatData)
                     .then(() => {
@@ -57,11 +57,23 @@ export class GuestsListComponent {
             }
 
             if (value.action === 'shoutout') {
+                this.disable['actions'] = true;
+
                 const flatData = [value.guest].map(this.guestIds).flat();
                 twitchUsers.append(flatData)
                     .then(() => {
+
+                        const index = this.guests.findIndex(x => x.streamer_id === value.guest.streamer_id)
+                        if (index !== -1) {
+                            this.guests.splice(index, 1);
+                        }
+
                         this.guests.unshift(value.guest);
                         this.guests.splice(value.max_channel_shoutouts);
+
+                        timer(3000).pipe(first()).subscribe(() => {
+                            this.disable['actions'] = false;
+                        });
                     });
             } else if (value.action === 'move-up') {
                 this.disable['move-up'] = true;
