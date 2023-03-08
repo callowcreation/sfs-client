@@ -1,6 +1,6 @@
 import { Component, NgZone } from '@angular/core';
 import { first, timer } from 'rxjs';
-import { ActionGuest } from 'src/app/interfaces/action-guest';
+import { Patron } from 'src/app/interfaces/patron';
 import { Guest } from 'src/app/interfaces/guest';
 import PinItem from 'src/app/interfaces/pin-item';
 import { TransactionObject } from 'src/app/interfaces/transaction';
@@ -19,7 +19,7 @@ import { environment } from 'src/environments/environment';
 export class GuestsListComponent {
 
     guests: any[] = [];
-    pinned: any[] = [];
+    patrons: any[] = [];
 
     disable = {
         actions: false,
@@ -31,36 +31,19 @@ export class GuestsListComponent {
 
         twitchLib.authorized$.subscribe((auth: TwitchAuth) => {
             backendApi.get<any>(`/shoutouts/${75987197}`).pipe(first()).subscribe(data => {
-                console.log(data)
-                const flatData = data.map(this.guestIds).flat();//.splice(0, 10);
-                // smallData.length = 3;
-                twitchUsers.append(flatData) //['login=callowcreation', 'login=naivebot']
+                // console.log(data)
+                const flatData = data.map(this.guestIds).flat();
+                twitchUsers.append(flatData)
                     .then(() => {
                         this.guests = this.removeDuplicates(data);
-                        // console.log(this.guests)
-                        // twitchLib.send(data);
                     });
             });
             backendApi.get<any>(`/shoutouts/${75987197}/pin-item`).pipe(first()).subscribe(data => {
-                console.log({ pinned: data })
-
-                // const guests: any[] = [
-                //     {
-                //         legacy: true,
-                //         broadcaster_id: '75987197',
-                //         streamer_id: 'callowcreation',
-                //         poster_id: 'naivebot',
-                //         pinner_id: 'wollac',
-                //         timestamp: Date.now()
-                //     }
-                // ];
-
-                const flatData = data.map(this.pinnerIds).flat();//.splice(0, 10);
-                twitchUsers.append(flatData) //['login=callowcreation', 'login=naivebot']
+                // console.log({ pinned: data })
+                const flatData = data.map(this.patronIds).flat();
+                twitchUsers.append(flatData)
                     .then(() => {
-                        this.pinned = this.removeDuplicates(data);
-                        // console.log(this.guests)
-                        // twitchLib.send(data);
+                        this.patrons = this.removeDuplicates(data);
                     });
             });
         });
@@ -73,7 +56,14 @@ export class GuestsListComponent {
                 return;
             }
 
-            if (value.action === 'move-up') {
+            if (value.action === 'shoutout') {
+                const flatData = [value.guest].map(this.guestIds).flat();
+                twitchUsers.append(flatData)
+                    .then(() => {
+                        this.guests.unshift(value.guest);
+                        this.guests.splice(value.max_channel_shoutouts);
+                    });
+            } else if (value.action === 'move-up') {
                 this.disable['move-up'] = true;
 
                 const tmp = this.guests[value.index - 1];
@@ -87,7 +77,7 @@ export class GuestsListComponent {
             } else if (value.action === 'pin-item') {
                 this.disable['pin-item'] = true;
 
-                this.pinned = this.guests.splice(value.index, 1);
+                this.patrons = this.guests.splice(value.index, 1);
 
                 timer(3000).pipe(first()).subscribe(() => {
                     this.disable['pin-item'] = false;
@@ -102,11 +92,9 @@ export class GuestsListComponent {
         if (this.disable[action] || this.disable['actions']) return;
         this.disable[action] = true;
         this.disable['actions'] = true;
-        //event.target.style.opacity = '0.0';
 
         this.twitchLib.send({ internal: { disable: this.disable } });
-        this.zone.run(() => {
-        });
+
         const bits = this.twitchLib.bits;
 
         bits.onTransactionCancelled(() => {
@@ -136,9 +124,9 @@ export class GuestsListComponent {
         return ([`${key}=${guest.streamer_id}`, `${key}=${guest.poster_id}`]);
     }
 
-    private pinnerIds(guest: ActionGuest) {
-        const key = guest.legacy === true ? 'login' : 'id';
-        return ([`$id=${guest.pinner_id}`, `${key}=${guest.streamer_id}`, `${key}=${guest.poster_id}`]);
+    private patronIds(patron: Patron) {
+        const key = patron.legacy === true ? 'login' : 'id';
+        return ([`$id=${patron.pinner_id}`, `${key}=${patron.streamer_id}`, `${key}=${patron.poster_id}`]);
     }
 
     private removeDuplicates(arr: any[]) {

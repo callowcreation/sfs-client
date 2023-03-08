@@ -112,9 +112,26 @@ img {
     }
 }
 
+.non-action-item {
+    // background-color: rgb(73, 165, 42);
+
+    transition: all .2s;
+    // border: 1px solid blue;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    opacity: 0.8;
+    margin-top: 8px;
+    transform: scale(90%);
+
+    &:hover {
+        opacity: 1;
+    }
+}
+
 .poster_img {
-    width: 24px; 
-    height: 24px; 
+    width: 26px; 
+    height: 26px; 
     position: absolute; 
     bottom: 0px; 
     right: 0px;
@@ -123,4 +140,21 @@ img {
     &:hover {
         opacity: 0.8;
     }
+}
+
+.empty-list {
+    width: 180px;
+    height: 180px;
+    margin: auto;
+}
+
+.empty-list-img {
+    width: 180px;
+    height: 180px;
+    margin: auto;
+    margin-top: 10px;
+}
+
+.empty-list-title {
+    margin-top: 5px;
 }
