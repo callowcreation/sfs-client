@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { first } from 'rxjs';
 import { User } from '../interfaces/user';
 import { TwitchApiService } from './twitch-api.service';
 
@@ -32,7 +33,7 @@ export class TwitchUsersService {
             let chunksCounter: number = 0;
             for (let i = 0; i < params.length; i += CHUNK_SIZE) {
                 const chunk: string[] = params.slice(i, i + CHUNK_SIZE);
-                this.twitchApi.users(chunk).subscribe((users: User[]) => {
+                this.twitchApi.users(chunk).pipe(first()).subscribe((users: User[]) => {
                     this.update(users);
                     if (++chunksCounter >= chunksAmount) resolve();
                 });
