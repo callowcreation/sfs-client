@@ -1,3 +1,4 @@
+<app-error-notice *ngIf="error" class="error" [error]="error"></app-error-notice>
 <div class="list-container-pinned">
     <ul>
         <li class="row-layout" *ngFor="let patron of patrons">
@@ -17,8 +18,8 @@
             </div>
             <span class="action-layout">
                 <div class="non-action-item">
-                    <img class="poster_img" title="{{patron.pinner_id | twitch_user:'display_name'}}"
-                    src="{{patron.pinner_id | twitch_user:'profile_image_url'}}">
+                    <img class="poster_img" title="{{patron.pinner_id | dynamic_user:'display_name' | async}}"
+                    src="{{patron.pinner_id | dynamic_user:'profile_image_url' | async}}">
                 </div>
             </span>
         </li>
@@ -46,8 +47,8 @@
                 </div>
             </div>
             <span class="action-layout">
-                <div class="action-item" *ngIf="patrons.length === 0" (click)="actionClick(guest, 'pin-item')" [ngClass]="{'action-disabled' : disable['actions'] || disable['pin-item'], '': !(disable['actions'] || disable['pin-item'])}">🖈</div>
-                <div class="action-item" (click)="actionClick(guest, 'move-up')" [ngClass]="{'action-disabled' : disable['actions'] || disable['move-up'], '': !(disable['actions'] || disable['move-up'])}">&#8682;</div>
+                <div class="action-item" *ngIf="patrons.length === 0" (click)="actionClick(guest, 'pin-item')" [ngClass]="{'action-disabled' : disableActions, '': !disableActions}">🖈</div>
+                <div class="action-item" (click)="actionClick(guest, 'move-up')" [ngClass]="{'action-disabled' : disableActions, '': !disableActions}">&#8682;</div>
             </span>
         </li>
     </ul>

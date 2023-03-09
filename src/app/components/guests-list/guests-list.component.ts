@@ -10,6 +10,8 @@ import { SettingsService } from 'src/app/services/settings.service';
 import { TwitchLibService } from 'src/app/services/twitch-lib.service';
 import { TwitchUsersService } from 'src/app/services/twitch-users.service';
 import { environment } from 'src/environments/environment';
+import { TwitchApiService } from 'src/app/services/twitch-api.service';
+import { User } from 'src/app/interfaces/user';
 
 @Component({
     selector: 'app-guests-list',
@@ -21,17 +23,16 @@ export class GuestsListComponent {
     guests: any[] = [];
     patrons: any[] = [];
 
-    disable = {
-        actions: false,
-        ['move-up']: false,
-        ['pin-item']: false,
-    };
+    disableActions: boolean = false;
+
+    error: Error | null = null;
 
     constructor(
-        private zone: NgZone, 
-        private twitchLib: TwitchLibService, 
-        private twitchUsers: TwitchUsersService, 
-        private backendApi: BackendApiService, 
+        private zone: NgZone,
+        private twitchLib: TwitchLibService,
+        private twitchApi: TwitchApiService,
+        private twitchUsers: TwitchUsersService,
+        private backendApi: BackendApiService,
         public settings: SettingsService) {
     }
 
@@ -54,12 +55,12 @@ export class GuestsListComponent {
             console.log({ pubsub: value })
 
             if (value.internal) {
-                this.disable = value.internal.disable;
+                this.disableActions = value.internal.disableActions;
                 return;
             }
 
             if (value.action === 'shoutout') {
-                this.disable['actions'] = true;
+                this.disableActions = true;
 
                 const flatData = [value.guest].map(this.guestIds).flat();
                 this.twitchUsers.append(flatData)
@@ -73,23 +74,23 @@ export class GuestsListComponent {
                         this.guests.unshift(value.guest);
                         this.guests.splice(value.max_channel_shoutouts);
 
-                        timer(3000).pipe(first()).subscribe(() => {
-                            this.disable['actions'] = false;
+                        timer(3000).subscribe(() => {
+                            this.disableActions = false;
                         });
                     });
             } else if (value.action === 'move-up') {
-                this.disable['move-up'] = true;
+                this.disableActions = true;
 
                 const tmp = this.guests[value.index - 1];
                 this.guests[value.index - 1] = this.guests[value.index];
                 this.guests[value.index] = tmp;
 
-                timer(3000).pipe(first()).subscribe(() => {
-                    this.disable['move-up'] = false;
-                    this.disable['actions'] = false;
+                timer(3000).subscribe(() => {
+                    this.disableActions = false;
                 });
             } else if (value.action === 'pin-item') {
-                this.disable['pin-item'] = true;
+                console.log('pin received')
+                this.disableActions = true;
 
                 const patron: Patron = this.guests.splice(value.index, 1)[0] as Patron;
                 patron.pinner_id = value.pinner_id;
@@ -97,9 +98,9 @@ export class GuestsListComponent {
                 this.twitchUsers.append(flatData)
                     .then(() => {
                         this.patrons = this.removeDuplicates([patron]);
-                        timer(3000).pipe(first()).subscribe(() => {
-                            this.disable['pin-item'] = false;
-                            this.disable['actions'] = false;
+                        console.log('pin assigned', patron, { patrons: this.patrons })
+                        timer(3000).subscribe(() => {
+                            this.disableActions = false;
                         });
                     });
             }
@@ -112,22 +113,29 @@ export class GuestsListComponent {
     }
 
     actionClick(guest: Guest, action: 'move-up' | 'pin-item') {
-        console.log(`actionClick=${action}`, guest)
-        if (this.disable[action] || this.disable['actions']) return;
-        this.disable[action] = true;
-        this.disable['actions'] = true;
+        // try {
+        //     ({} as any).willThrow();
+        // } catch (error) {
+        //     if(error instanceof Error) {
+        //         this.error = error;
+        //         return;
+        //     }
+        // }
 
-        this.twitchLib.send({ internal: { disable: this.disable } });
+        console.log(`actionClick=${action}`, guest)
+        if (this.disableActions) return;
+        this.disableActions = true;
+
+        this.twitchLib.send({ internal: { disableActions: this.disableActions } });
 
         const bits = this.twitchLib.bits;
 
         bits.onTransactionCancelled(() => {
             console.log(`Transaction ${action} was cancelled`);
-            timer(1000).pipe(first()).subscribe(() => {
-                this.disable[action] = false;
-                this.disable['actions'] = false;
+            timer(1000).subscribe(() => {
+                this.disableActions = false;
 
-                this.twitchLib.send({ internal: { disable: this.disable } });
+                this.twitchLib.send({ internal: { disableActions: this.disableActions } });
             });
         });
 

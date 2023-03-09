@@ -14,7 +14,7 @@ export class TwitchUsersService {
 
     constructor(private twitchApi: TwitchApiService) { }
 
-    private update(users: User[]): void {
+    update(users: User[]): void {
         for (let i = 0; i < users.length; i++) {
             const user: User = users[i];
             if (!this.items[user.id]) this.items[user.id] = user;
@@ -33,7 +33,7 @@ export class TwitchUsersService {
             let chunksCounter: number = 0;
             for (let i = 0; i < params.length; i += CHUNK_SIZE) {
                 const chunk: string[] = params.slice(i, i + CHUNK_SIZE);
-                this.twitchApi.users(chunk).pipe(first()).subscribe((users: User[]) => {
+                this.twitchApi.users(chunk).subscribe((users: User[]) => {
                     this.update(users);
                     if (++chunksCounter >= chunksAmount) resolve();
                 });

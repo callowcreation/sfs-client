@@ -79,7 +79,7 @@ function attachEnvironment(payload: any): any {
     payload.environment = {
         cycle: environment.cycle,
         version: environment.version,
-        timestamp: new Date(new Date().toLocaleString("en-US", { timeZone: "America/Los_Angeles" })),
+        timestamp: Date.now(),
     };
     return payload;
 }
