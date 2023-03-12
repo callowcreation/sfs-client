@@ -41,9 +41,9 @@ export class TwitchLibService {
 
         this.ext.listen('broadcast', (target: string, contentType: string, message: string) => {
             const pub_sub_message = JSON.parse(message);
-            console.log('--------------------------------------------------------')
-            console.log({pub_sub_message})
-            console.log('--------------------------------------------------------')
+            // console.log('--------------------------------------------------------')
+            // console.log({pub_sub_message})
+            // console.log('--------------------------------------------------------')
             const { internal } = pub_sub_message;
             const { cycle, version, timestamp } = pub_sub_message.environment;
 

@@ -87,17 +87,18 @@ export class GuestsListComponent {
                 const patron: Patron = this.guests.splice(value.index, 1)[0] as Patron;
                 patron.pinner_id = value.pinner_id;
                 const flatData = [patron].map(this.patronIds).flat();
-                this.twitchUsers.append(flatData)
-                    .then(() => {
-                        this.patrons = this.removeDuplicates([patron]);
-                        timer(3000).subscribe(() => {
-                            this.disableActions = false;
-                        });
+                this.twitchUsers.append(flatData).then(() => {
+                    this.patrons = this.removeDuplicates([patron]);
+                    timer(3000).subscribe(() => {
+                        this.disableActions = false;
                     });
+                });
             } else if (value.action === 'pin-item-remove') {
                 this.disableActions = true;
+
                 this.guests.unshift(this.patrons[0]);
-                this.patrons = [];                        
+                this.guests.splice(value.max_channel_shoutouts);
+                this.patrons = [];
                 timer(3000).subscribe(() => {
                     this.disableActions = false;
                 });
