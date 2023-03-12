@@ -21,7 +21,7 @@ img {
     width: 58px;
     height: 58px;
     margin: 2px;
-    
+
 }
 
 .row-layout {
@@ -129,11 +129,15 @@ img {
     }
 }
 
+.remove-action-item {
+    border-width: 0px;
+}
+
 .poster_img {
-    width: 22px; 
-    height: 22px; 
-    position: absolute; 
-    bottom: 0px; 
+    width: 22px;
+    height: 22px;
+    position: absolute;
+    bottom: 0px;
     right: 0px;
     opacity: 0.3;
 
@@ -143,8 +147,8 @@ img {
 }
 
 .pinner_img {
-    width: 18px; 
-    height: 18px; 
+    width: 18px;
+    height: 18px;
 }
 
 .empty-list {
@@ -172,4 +176,4 @@ img {
     border-bottom-left-radius: 2px;
     border-bottom-right-radius: 2px;
     z-index: 1;
-  }
+}

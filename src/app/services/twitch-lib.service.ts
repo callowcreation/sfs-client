@@ -4,6 +4,10 @@ import { environment } from 'src/environments/environment';
 import { TwitchAuth } from '../interfaces/twitch-auth';
 import { WindowRef } from '../window-ref';
 
+export type Mode = 'viewer' | 'dashboard' | 'config';
+export interface Context {
+    mode: Mode;
+}
 @Injectable({
     providedIn: 'root'
 })
@@ -11,14 +15,25 @@ export class TwitchLibService {
     
     private _pubsub$: Subject<any> = new Subject<any>();
 
-    authorized$: Subject<TwitchAuth> = new Subject<TwitchAuth>();
+    private _context$: Subject<Context> = new Subject<Context>();
 
+    private _authorized$: Subject<TwitchAuth> = new Subject<TwitchAuth>();
+
+    ctx!: Context;
     auth!: TwitchAuth;
 
     broadcast_listen_timestamps: number[] = [];
 
     public get pubsub$(): Subject<any> {
         return this._pubsub$;
+    }
+
+    public get context$(): Subject<Context> {
+        return this._context$;
+    }
+
+    public get authorized$(): Subject<TwitchAuth> {
+        return this._authorized$;
     }
 
     private get ext(): any {
@@ -34,9 +49,15 @@ export class TwitchLibService {
         this.ext.bits.setUserLoopBack = true; // used to stop bit transaction from using my bits when testing
 		this.ext.bits.showBitsBalance();
 
+        this.ext.onContext((context: Context, properties: string[]) => {
+            this.ctx = context;
+            console.log({context})
+            this.zone.run(() => this._context$.next(context));
+        });
+
         this.ext.onAuthorized((auth: any) => {
             this.auth = auth;
-            this.zone.run(() => this.authorized$.next(auth));
+            this.zone.run(() => this._authorized$.next(auth));
         });
 
         this.ext.listen('broadcast', (target: string, contentType: string, message: string) => {

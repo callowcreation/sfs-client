@@ -7,7 +7,7 @@ import { TransactionObject } from 'src/app/interfaces/transaction';
 import { TwitchAuth } from 'src/app/interfaces/twitch-auth';
 import { BackendApiService } from 'src/app/services/backend-api.service';
 import { SettingsService } from 'src/app/services/settings.service';
-import { TwitchLibService } from 'src/app/services/twitch-lib.service';
+import { Mode, TwitchLibService } from 'src/app/services/twitch-lib.service';
 import { TwitchUsersService } from 'src/app/services/twitch-users.service';
 
 @Component({
@@ -24,14 +24,20 @@ export class GuestsListComponent {
 
     error: Error | null = null;
 
+    mode: Mode = 'viewer';
+
     constructor(
-        private twitchLib: TwitchLibService,
+        public twitchLib: TwitchLibService,
         private twitchUsers: TwitchUsersService,
         private backendApi: BackendApiService,
         public settings: SettingsService) {
     }
 
     ngOnInit() {
+        this.twitchLib.context$.subscribe(context => {
+            this.mode = context.mode;
+        });
+
         this.twitchLib.authorized$.subscribe((auth: TwitchAuth) => {
 
             this.backendApi.get<any>(`/shoutouts/${auth.channelId}`).pipe(first()).subscribe(data => {
@@ -102,6 +108,13 @@ export class GuestsListComponent {
                 timer(3000).subscribe(() => {
                     this.disableActions = false;
                 });
+            } else if(value.action === 'item-remove') {
+                this.disableActions = true;
+
+                this.guests.splice(value.index, 1);
+                timer(3000).subscribe(() => {
+                    this.disableActions = false;
+                });
             }
         });
     }
@@ -109,6 +122,18 @@ export class GuestsListComponent {
     ngOnDestroy() {
         this.twitchLib.authorized$.unsubscribe();
         this.twitchLib.pubsub$.unsubscribe();
+    }
+
+    removeItem(guest: Guest) {
+        
+        if (this.disableActions) return;
+        this.disableActions = true;
+        
+        this.twitchLib.send({ internal: { disableActions: this.disableActions } });
+        
+        this.backendApi.delete(`/shoutouts/${this.twitchLib.auth.channelId}?key=${guest.key}`).pipe(first()).subscribe(value => {
+            console.log({ DELETE_COMPELE: value })
+        });
     }
 
     actionClick(guest: Guest, action: 'move-up' | 'pin-item') {
