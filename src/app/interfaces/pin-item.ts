@@ -2,7 +2,7 @@
 export interface PinData {
     broadcaster_id: string,
     pinner_id: string,
-    expireAt: Date,
+    expire_at: Date,
     key: string
 }
 

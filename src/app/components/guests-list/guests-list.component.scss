@@ -130,8 +130,8 @@ img {
 }
 
 .poster_img {
-    width: 26px; 
-    height: 26px; 
+    width: 22px; 
+    height: 22px; 
     position: absolute; 
     bottom: 0px; 
     right: 0px;
@@ -140,6 +140,11 @@ img {
     &:hover {
         opacity: 0.8;
     }
+}
+
+.pinner_img {
+    width: 18px; 
+    height: 18px; 
 }
 
 .empty-list {

@@ -8,7 +8,8 @@
     "build:staged": "ng build --configuration staged",
     "build:dev": "ng build --configuration development",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "zipit": "7z a -tzip \".\\.\\bin\\_cdn_version_%time:~0,2%%time:~3,2%%time:~6,2%_%date:~-10,2%%date:~-7,2%%date:~-4,4%.zip\" F:\\Web\\nodejs\\twitch-dev\\extensions\\sfs-client\\dist\\*.*"
   },
   "private": true,
   "dependencies": {

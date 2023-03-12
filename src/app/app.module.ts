@@ -21,7 +21,7 @@ import { TokenHeaderInterceptor } from './interceptors/token-header.interceptor'
 import { UsersInterceptor } from './interceptors/users.interceptor';
 import { TruncatePipe } from './pipes/truncate.pipe';
 import { BackendHeaderInterceptor } from './interceptors/backend-header.interceptor';
-import { UncaughtErrorHandlerService } from './services/uncaught-error-handler.service';
+// import { UncaughtErrorHandlerService } from './services/uncaught-error-handler.service';
 import { ErrorNoticeComponent } from './components/error-notice/error-notice.component';
 import { DynamicUserPipe } from './pipes/dynamic-user.pipe';
 
@@ -56,7 +56,7 @@ const matModules: (any[] | Type<any> | ModuleWithProviders<{}>) = [
         { provide: HTTP_INTERCEPTORS, useClass: BackendHeaderInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: TokenHeaderInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: UsersInterceptor, multi: true },
-        { provide: ErrorHandler, useClass: UncaughtErrorHandlerService }
+        // { provide: ErrorHandler, useClass: UncaughtErrorHandlerService }
     ],
     bootstrap: [AppComponent]
 })

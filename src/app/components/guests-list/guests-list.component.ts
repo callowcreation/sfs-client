@@ -1,5 +1,5 @@
-import { Component, NgZone } from '@angular/core';
-import { first, map, timer } from 'rxjs';
+import { Component } from '@angular/core';
+import { first, timer } from 'rxjs';
 import { Patron } from 'src/app/interfaces/patron';
 import { Guest } from 'src/app/interfaces/guest';
 import PinItem from 'src/app/interfaces/pin-item';
@@ -9,9 +9,6 @@ import { BackendApiService } from 'src/app/services/backend-api.service';
 import { SettingsService } from 'src/app/services/settings.service';
 import { TwitchLibService } from 'src/app/services/twitch-lib.service';
 import { TwitchUsersService } from 'src/app/services/twitch-users.service';
-import { environment } from 'src/environments/environment';
-import { TwitchApiService } from 'src/app/services/twitch-api.service';
-import { User } from 'src/app/interfaces/user';
 
 @Component({
     selector: 'app-guests-list',
@@ -28,9 +25,7 @@ export class GuestsListComponent {
     error: Error | null = null;
 
     constructor(
-        private zone: NgZone,
         private twitchLib: TwitchLibService,
-        private twitchApi: TwitchApiService,
         private twitchUsers: TwitchUsersService,
         private backendApi: BackendApiService,
         public settings: SettingsService) {
@@ -39,13 +34,11 @@ export class GuestsListComponent {
     ngOnInit() {
         this.twitchLib.authorized$.subscribe((auth: TwitchAuth) => {
 
-            this.backendApi.get<any>(`/shoutouts/${75987197}`).pipe(first()).subscribe(data => {
-                // console.log(data)
+            this.backendApi.get<any>(`/shoutouts/${auth.channelId}`).pipe(first()).subscribe(data => {
                 const flatData = data.map(this.guestIds).flat();
                 this.twitchUsers.append(flatData).then(() => this.guests = this.removeDuplicates(data));
             });
-            this.backendApi.get<any>(`/shoutouts/${75987197}/pin-item`).pipe(first()).subscribe(data => {
-                // console.log({ pinned: data })
+            this.backendApi.get<any>(`/shoutouts/${auth.channelId}/pin-item`).pipe(first()).subscribe(data => {
                 const flatData = data.map(this.patronIds).flat();
                 this.twitchUsers.append(flatData).then(() => this.patrons = this.removeDuplicates(data));
             });
@@ -89,7 +82,6 @@ export class GuestsListComponent {
                     this.disableActions = false;
                 });
             } else if (value.action === 'pin-item') {
-                console.log('pin received')
                 this.disableActions = true;
 
                 const patron: Patron = this.guests.splice(value.index, 1)[0] as Patron;
@@ -98,11 +90,17 @@ export class GuestsListComponent {
                 this.twitchUsers.append(flatData)
                     .then(() => {
                         this.patrons = this.removeDuplicates([patron]);
-                        console.log('pin assigned', patron, { patrons: this.patrons })
                         timer(3000).subscribe(() => {
                             this.disableActions = false;
                         });
                     });
+            } else if (value.action === 'pin-item-remove') {
+                this.disableActions = true;
+                this.guests.unshift(this.patrons[0]);
+                this.patrons = [];                        
+                timer(3000).subscribe(() => {
+                    this.disableActions = false;
+                });
             }
         });
     }
@@ -122,7 +120,6 @@ export class GuestsListComponent {
         //     }
         // }
 
-        console.log(`actionClick=${action}`, guest)
         if (this.disableActions) return;
         this.disableActions = true;
 
@@ -131,8 +128,8 @@ export class GuestsListComponent {
         const bits = this.twitchLib.bits;
 
         bits.onTransactionCancelled(() => {
-            console.log(`Transaction ${action} was cancelled`);
             timer(1000).subscribe(() => {
+                console.log(`Transaction ${action} was cancelled`);
                 this.disableActions = false;
 
                 this.twitchLib.send({ internal: { disableActions: this.disableActions } });
@@ -140,7 +137,7 @@ export class GuestsListComponent {
         });
 
         bits.onTransactionComplete((transaction: TransactionObject) => {
-            this.backendApi.put<PinItem>(`/shoutouts/${75987197}/${action}`, { pinner_id: transaction.userId, key: guest.key }).pipe(first()).subscribe(value => {
+            this.backendApi.put<PinItem>(`/shoutouts/${this.twitchLib.auth.channelId}/${action}`, { pinner_id: transaction.userId, key: guest.key }).pipe(first()).subscribe(value => {
                 console.log({ TransactionComplete: value })
             });
         });
@@ -152,7 +149,7 @@ export class GuestsListComponent {
     }
 
     private guestIds(guest: Guest): string[] {
-        console.log({ guest })
+        //console.log({ guest })
         const key = guest.legacy === true ? 'login' : 'id';
         return ([`${key}=${guest.streamer_id}`, `${key}=${guest.poster_id}`]);
     }

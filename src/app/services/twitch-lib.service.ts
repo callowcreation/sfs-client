@@ -49,14 +49,14 @@ export class TwitchLibService {
 
             if(internal) {
                 this.zone.run(() => {
-                    console.log({internal: 'Received broadcast message', target, contentType, pub_sub_message, cycle: `isProduction: ${environment.production}`});
+                    //console.log({internal: 'Received broadcast message', target, contentType, pub_sub_message, cycle: `isProduction: ${environment.production}`});
                     this._pubsub$.next(pub_sub_message);
                 });
                 return;
             }
 
             if (this.broadcast_listen_timestamps.includes(timestamp)) { // still a bug where there are multiple messages received
-                console.log(`--- Double response for ${timestamp}`, pub_sub_message);
+                //console.log(`--- Double response for ${timestamp}`, pub_sub_message);
                 return;
             }
             this.broadcast_listen_timestamps.push(timestamp);
