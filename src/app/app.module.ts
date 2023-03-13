@@ -25,6 +25,7 @@ import { BackendHeaderInterceptor } from './interceptors/backend-header.intercep
 import { ErrorNoticeComponent } from './components/error-notice/error-notice.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { DynamicUserPipe } from './pipes/dynamic-user.pipe';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const matModules: (any[] | Type<any> | ModuleWithProviders<{}>) = [
     MatFormFieldModule,
@@ -51,7 +52,8 @@ const matModules: (any[] | Type<any> | ModuleWithProviders<{}>) = [
         FormsModule,
         ReactiveFormsModule,
         HttpClientModule,
-        matModules
+        matModules,
+        BrowserAnimationsModule
     ],
     providers: [
         WindowRef,

@@ -133,11 +133,11 @@ export class GuestsListComponent {
 
         if (this.disableActions) return;
         this.disableActions = true;
+        this.twitchLib.send({ internal: { disableActions: this.disableActions } });
 
         const displayName = this.twitchUsers.user(guest.streamer_id).display_name;
         const dialogRef = this.dialog.open(ConfirmDialogComponent, { data: { content: `Remove shoutout for ${displayName}?` } });
         dialogRef.afterClosed().subscribe(result => {
-            this.twitchLib.send({ internal: { disableActions: this.disableActions } });
             if (coerceBooleanProperty(result) === true) {
                 this.backendApi.delete(`/shoutouts/${this.twitchLib.auth.channelId}?key=${guest.key}`).pipe(first()).subscribe();
             } else {
@@ -149,7 +149,6 @@ export class GuestsListComponent {
                 });
             }
         });
-
     }
 
     actionClick(guest: Guest, action: 'move-up' | 'pin-item') {
