@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { first, timer } from 'rxjs';
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { Patron } from 'src/app/interfaces/patron';
 import { Guest } from 'src/app/interfaces/guest';
 import PinItem from 'src/app/interfaces/pin-item';
@@ -9,6 +10,9 @@ import { BackendApiService } from 'src/app/services/backend-api.service';
 import { SettingsService } from 'src/app/services/settings.service';
 import { Mode, TwitchLibService } from 'src/app/services/twitch-lib.service';
 import { TwitchUsersService } from 'src/app/services/twitch-users.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+import { UserPipe } from 'src/app/pipes/user.pipe';
 
 @Component({
     selector: 'app-guests-list',
@@ -30,7 +34,8 @@ export class GuestsListComponent {
         public twitchLib: TwitchLibService,
         private twitchUsers: TwitchUsersService,
         private backendApi: BackendApiService,
-        public settings: SettingsService) {
+        public settings: SettingsService,
+        public dialog: MatDialog) {
     }
 
     ngOnInit() {
@@ -108,7 +113,7 @@ export class GuestsListComponent {
                 timer(3000).subscribe(() => {
                     this.disableActions = false;
                 });
-            } else if(value.action === 'item-remove') {
+            } else if (value.action === 'item-remove') {
                 this.disableActions = true;
 
                 this.guests.splice(value.index, 1);
@@ -125,15 +130,26 @@ export class GuestsListComponent {
     }
 
     removeItem(guest: Guest) {
-        
+
         if (this.disableActions) return;
         this.disableActions = true;
-        
-        this.twitchLib.send({ internal: { disableActions: this.disableActions } });
-        
-        this.backendApi.delete(`/shoutouts/${this.twitchLib.auth.channelId}?key=${guest.key}`).pipe(first()).subscribe(value => {
-            console.log({ DELETE_COMPELE: value })
+
+        const displayName = this.twitchUsers.user(guest.streamer_id).display_name;
+        const dialogRef = this.dialog.open(ConfirmDialogComponent, { data: { content: `Remove shoutout for ${displayName}?` } });
+        dialogRef.afterClosed().subscribe(result => {
+            this.twitchLib.send({ internal: { disableActions: this.disableActions } });
+            if (coerceBooleanProperty(result) === true) {
+                this.backendApi.delete(`/shoutouts/${this.twitchLib.auth.channelId}?key=${guest.key}`).pipe(first()).subscribe();
+            } else {
+                timer(1000).subscribe(() => {
+                    console.log(`Delete ${displayName} was cancelled`);
+                    this.disableActions = false;
+
+                    this.twitchLib.send({ internal: { disableActions: this.disableActions } });
+                });
+            }
         });
+
     }
 
     actionClick(guest: Guest, action: 'move-up' | 'pin-item') {

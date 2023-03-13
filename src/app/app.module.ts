@@ -7,7 +7,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import {MatDialogModule} from '@angular/material/dialog';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
@@ -23,6 +23,7 @@ import { TruncatePipe } from './pipes/truncate.pipe';
 import { BackendHeaderInterceptor } from './interceptors/backend-header.interceptor';
 // import { UncaughtErrorHandlerService } from './services/uncaught-error-handler.service';
 import { ErrorNoticeComponent } from './components/error-notice/error-notice.component';
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { DynamicUserPipe } from './pipes/dynamic-user.pipe';
 
 const matModules: (any[] | Type<any> | ModuleWithProviders<{}>) = [
@@ -31,7 +32,7 @@ const matModules: (any[] | Type<any> | ModuleWithProviders<{}>) = [
     MatSelectModule,
     MatIconModule,
     MatButtonModule,
-    MatSnackBarModule
+    MatDialogModule
 ];
 
 @NgModule({
@@ -40,9 +41,10 @@ const matModules: (any[] | Type<any> | ModuleWithProviders<{}>) = [
         HomeComponent,
         GuestsListComponent,
         UserPipe,
+        DynamicUserPipe,
         TruncatePipe,
         ErrorNoticeComponent,
-        DynamicUserPipe
+        ConfirmDialogComponent,
     ],
     imports: [
         BrowserModule,
@@ -56,7 +58,7 @@ const matModules: (any[] | Type<any> | ModuleWithProviders<{}>) = [
         { provide: HTTP_INTERCEPTORS, useClass: BackendHeaderInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: TokenHeaderInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: UsersInterceptor, multi: true },
-        // { provide: ErrorHandler, useClass: UncaughtErrorHandlerService }
+        // { provide: ErrorHandler, useClass: UncaughtErrorHandlerService },
     ],
     bootstrap: [AppComponent]
 })
