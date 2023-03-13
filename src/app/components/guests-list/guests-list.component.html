@@ -22,6 +22,12 @@
                     src="{{patron.pinner_id | dynamic_user:'profile_image_url' | async}}">
                 </div>
             </span>
+            <span class="action-layout" *ngIf="mode != 'viewer'">
+                <div class="non-action-item">
+                    <img class="poster_img pinner_img" title="Pin expires {{patron.timestamp | date:'short'}}"
+                    src="{{patron.pinner_id | dynamic_user:'profile_image_url' | async}}">
+                </div>
+            </span>
         </li>
     </ul>
 </div>

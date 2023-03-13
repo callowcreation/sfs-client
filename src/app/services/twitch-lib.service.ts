@@ -51,7 +51,6 @@ export class TwitchLibService {
 
         this.ext.onContext((context: Context, properties: string[]) => {
             this.ctx = context;
-            console.log({context})
             this.zone.run(() => this._context$.next(context));
         });
 
