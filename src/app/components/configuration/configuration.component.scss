@@ -1,0 +1,10 @@
+.example-small-box,
+.example-large-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: -5px 0px;
+    padding: 0;
+    height: 230px;
+    overflow-y: auto;
+}

@@ -3,7 +3,7 @@
     'border-color': form.controls['border-color'].value
     }" class="form-container">
     <form [formGroup]="form">
-    <div style="border: 1px solid transparent; margin: 2px;" [ngStyle]="{
+    <div [ngStyle]="{
         'border-color': form.controls['border-color'].value
         }" class="color-field">
         <mat-form-field>
@@ -14,7 +14,7 @@
                 (change)="colorChange(icolor.value, 'color')" />
         </mat-form-field>
     </div>
-        <div style="border: 1px solid transparent;" [ngStyle]="{
+        <div [ngStyle]="{
             'border-color': form.controls['border-color'].value
             }" class="color-field">
             <mat-form-field>
@@ -25,7 +25,7 @@
                     (change)="colorChange(iborder.value, 'border-color')" />
             </mat-form-field>
         </div>
-        <div style="border: 1px solid transparent;" [ngStyle]="{
+        <div [ngStyle]="{
             'border-color': form.controls['border-color'].value
             }" class="color-field">
             <mat-form-field>

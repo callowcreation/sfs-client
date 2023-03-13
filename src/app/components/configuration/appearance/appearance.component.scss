@@ -4,6 +4,10 @@
     margin-bottom: -1.0em;
 }
 
+::ng-deep .mat-mdc-tab.mdc-tab {
+    height: 30px;
+}
+
 .form-container {
     padding: 5px;
 }
@@ -11,6 +15,7 @@
 .color-field {
     border: 1px solid transparent; 
     margin: 2px;
+    height: 50px;
 }
 
 .button-bar {
@@ -23,6 +28,6 @@
 
 .border-button {
     height: 38px; 
-    width: 140px;
+    width: 130px;
     border: 1px solid transparent;
 }
