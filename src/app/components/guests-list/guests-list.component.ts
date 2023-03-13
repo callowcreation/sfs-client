@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { first, timer } from 'rxjs';
+import { first, take, timer } from 'rxjs';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { Patron } from 'src/app/interfaces/patron';
 import { Guest } from 'src/app/interfaces/guest';
@@ -45,11 +45,11 @@ export class GuestsListComponent {
 
         this.twitchLib.authorized$.subscribe((auth: TwitchAuth) => {
 
-            this.backendApi.get<any>(`/shoutouts/${auth.channelId}`).pipe(first()).subscribe(data => {
+            this.backendApi.get<any>(`/shoutouts/${auth.channelId}`).pipe(take(1)).subscribe(data => {
                 const flatData = data.map(this.guestIds).flat();
                 this.twitchUsers.append(flatData).then(() => this.guests = this.removeDuplicates(data));
             });
-            this.backendApi.get<any>(`/shoutouts/${auth.channelId}/pin-item`).pipe(first()).subscribe(data => {
+            this.backendApi.get<any>(`/shoutouts/${auth.channelId}/pin-item`).pipe(take(1)).subscribe(data => {
                 const flatData = data.map(this.patronIds).flat();
                 this.twitchUsers.append(flatData).then(() => this.patrons = this.removeDuplicates(data));
             });
@@ -78,7 +78,7 @@ export class GuestsListComponent {
                         this.guests.unshift(value.guest);
                         this.guests.splice(value.max_channel_shoutouts);
 
-                        timer(3000).subscribe(() => {
+                        timer(3000).pipe(take(1)).subscribe(() => {
                             this.disableActions = false;
                         });
                     });
@@ -89,7 +89,7 @@ export class GuestsListComponent {
                 this.guests[value.index - 1] = this.guests[value.index];
                 this.guests[value.index] = tmp;
 
-                timer(3000).subscribe(() => {
+                timer(3000).pipe(take(1)).subscribe(() => {
                     this.disableActions = false;
                 });
             } else if (value.action === 'pin-item') {
@@ -125,6 +125,7 @@ export class GuestsListComponent {
     }
 
     ngOnDestroy() {
+        this.twitchLib.context$.unsubscribe();
         this.twitchLib.authorized$.unsubscribe();
         this.twitchLib.pubsub$.unsubscribe();
     }
@@ -139,7 +140,7 @@ export class GuestsListComponent {
         const dialogRef = this.dialog.open(ConfirmDialogComponent, { data: { content: `Remove shoutout for ${displayName}?` } });
         dialogRef.afterClosed().subscribe(result => {
             if (coerceBooleanProperty(result) === true) {
-                this.backendApi.delete(`/shoutouts/${this.twitchLib.auth.channelId}?key=${guest.key}`).pipe(first()).subscribe();
+                this.backendApi.delete(`/shoutouts/${this.twitchLib.auth.channelId}?key=${guest.key}`).pipe(take(1)).subscribe();
             } else {
                 timer(1000).subscribe(() => {
                     console.log(`Delete ${displayName} was cancelled`);
@@ -178,7 +179,7 @@ export class GuestsListComponent {
         });
 
         bits.onTransactionComplete((transaction: TransactionObject) => {
-            this.backendApi.put<PinItem>(`/shoutouts/${this.twitchLib.auth.channelId}/${action}`, { pinner_id: transaction.userId, key: guest.key }).pipe(first()).subscribe(value => {
+            this.backendApi.put<PinItem>(`/shoutouts/${this.twitchLib.auth.channelId}/${action}`, { pinner_id: transaction.userId, key: guest.key }).pipe(take(1)).subscribe(value => {
                 console.log({ TransactionComplete: value })
             });
         });

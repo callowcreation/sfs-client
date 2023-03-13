@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { first, Observable, Subject } from 'rxjs';
+import { first, Observable, Subject, take } from 'rxjs';
 import { TwitchAuth } from '../interfaces/twitch-auth';
 import { BackendApiService } from './backend-api.service';
 import { TwitchLibService } from './twitch-lib.service';
@@ -9,11 +9,19 @@ import { TwitchLibService } from './twitch-lib.service';
 })
 export class SettingsService {
 
-    values$: Observable<any> = new Observable<any>();
+    values$: Subject<any> = new Subject<any>();
 
-    constructor(twitchLib: TwitchLibService, backendApi: BackendApiService) {
-        twitchLib.authorized$.pipe(first()).subscribe((auth: TwitchAuth) => {
-            this.values$ = backendApi.get<any>(`/settings/${auth.channelId}`);
+    constructor(private twitchLib: TwitchLibService, private backendApi: BackendApiService) {
+        twitchLib.authorized$.subscribe((auth: TwitchAuth) => {
+            backendApi.get<any>(`/settings/${auth.channelId}`).subscribe(values => {
+                this.values$.next(values);
+            });
+        });
+    }
+
+    updateApperance(values: any) {
+        this.backendApi.put(`/settings/${this.twitchLib.auth.channelId}`, { values }).pipe(take(1)).subscribe(value => {
+            this.values$.next(value);
         });
     }
 }

@@ -1,10 +1,12 @@
 <div class="page-container" [ngStyle]="{
-        'color': (settings.values$ | async)?.['color'],
-        'border-color': (settings.values$ | async)?.['border-color'],
-        'background-color': (settings.values$ | async)?.['background-color']
-    }">
-    <div class="page-header">
+    'color': (settings.values$ | async)?.['color'],
+    'border-color': (settings.values$ | async)?.['border-color'],
+    'background-color': (settings.values$ | async)?.['background-color']
+}">
+    <div class="page-header" [ngStyle]="{'border-color': (settings.values$ | async)?.['border-color']}">
         <h2>Shoutouts for Streamers</h2>
     </div>
-    <app-guests-list></app-guests-list>
+    <!-- <app-guests-list></app-guests-list> -->
+    <app-appearance></app-appearance>
+
 </div>

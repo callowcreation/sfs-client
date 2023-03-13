@@ -1,0 +1,28 @@
+
+::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    background-color: transparent !important;
+    margin-bottom: -1.0em;
+}
+
+.form-container {
+    padding: 5px;
+}
+
+.color-field {
+    border: 1px solid transparent; 
+    margin: 2px;
+}
+
+.button-bar {
+    margin-top: 5px;
+
+    button {
+        margin: 0px 5px;
+    }
+}
+
+.border-button {
+    height: 38px; 
+    width: 140px;
+    border: 1px solid transparent;
+}

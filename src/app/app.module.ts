@@ -8,6 +8,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import {MatDialogModule} from '@angular/material/dialog';
+import { MatInputModule } from '@angular/material/input';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
@@ -26,6 +27,7 @@ import { ErrorNoticeComponent } from './components/error-notice/error-notice.com
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { DynamicUserPipe } from './pipes/dynamic-user.pipe';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AppearanceComponent } from './components/templates/appearance/appearance.component';
 
 const matModules: (any[] | Type<any> | ModuleWithProviders<{}>) = [
     MatFormFieldModule,
@@ -33,7 +35,8 @@ const matModules: (any[] | Type<any> | ModuleWithProviders<{}>) = [
     MatSelectModule,
     MatIconModule,
     MatButtonModule,
-    MatDialogModule
+    MatDialogModule,
+    MatInputModule
 ];
 
 @NgModule({
@@ -46,6 +49,7 @@ const matModules: (any[] | Type<any> | ModuleWithProviders<{}>) = [
         TruncatePipe,
         ErrorNoticeComponent,
         ConfirmDialogComponent,
+        AppearanceComponent,
     ],
     imports: [
         BrowserModule,
