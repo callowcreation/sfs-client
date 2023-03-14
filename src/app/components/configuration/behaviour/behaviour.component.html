@@ -1,0 +1,33 @@
+<div [ngStyle]="{
+    'border-color': (settings.values$ | async)?.['border-color'],
+    'color': (settings.values$ | async)?.['color']
+    }" class="form-container">
+
+    <section class="input-section" [formGroup]="behaviour">
+        <p>
+            <mat-checkbox formControlName="auto-shoutout"><span [ngStyle]="{
+        'background-color': (settings.values$ | async)?.['background-color'],
+        'border-color': (settings.values$ | async)?.['border-color'],
+        'color': (settings.values$ | async)?.['color']
+        }">Auto Shoutout</span></mat-checkbox>
+        </p>
+        <p>
+            <mat-checkbox formControlName="badge-vip"><span [ngStyle]="{
+        'background-color': (settings.values$ | async)?.['background-color'],
+        'border-color': (settings.values$ | async)?.['border-color'],
+        'color': (settings.values$ | async)?.['color']
+        }">Badge Vip</span></mat-checkbox>
+        </p>
+    </section>
+
+    <section class="button-bar">
+        <button mat-raised-button class="border-button" [ngStyle]="{
+                'color': (settings.values$ | async)?.['color'],
+                'border-color': (settings.values$ | async)?.['border-color'],
+                'background-color': (settings.values$ | async)?.['background-color']
+                }" (click)="true">
+            <mat-icon>save</mat-icon>
+            Save
+        </button>
+    </section>
+</div>

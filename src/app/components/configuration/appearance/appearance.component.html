@@ -2,18 +2,18 @@
     'background-color': form.controls['background-color'].value,
     'border-color': form.controls['border-color'].value
     }" class="form-container">
-    <form [formGroup]="form">
-    <div [ngStyle]="{
+    <section [formGroup]="form">
+        <div [ngStyle]="{
         'border-color': form.controls['border-color'].value
         }" class="color-field">
-        <mat-form-field>
-            <mat-label [ngStyle]="{
+            <mat-form-field>
+                <mat-label [ngStyle]="{
                 'color': form.controls['color'].value
                 }">Font Color {{form.controls['color'].value}}</mat-label>
-            <input type="color" matInput name="color-font" [value]="form.controls['color'].value" #icolor
-                (change)="colorChange(icolor.value, 'color')" />
-        </mat-form-field>
-    </div>
+                <input type="color" matInput name="color-font" [value]="form.controls['color'].value" #icolor
+                    (change)="colorChange(icolor.value, 'color')" />
+            </mat-form-field>
+        </div>
         <div [ngStyle]="{
             'border-color': form.controls['border-color'].value
             }" class="color-field">
@@ -36,24 +36,23 @@
                     #ibackground (change)="colorChange(ibackground.value, 'background-color')" />
             </mat-form-field>
         </div>
-        <div class="button-bar">
-            <button mat-flat-button class="border-button" [ngStyle]="{
-                'color': form.controls['color'].value,
-                'border-color': form.controls['border-color'].value,
-                'background-color': form.controls['background-color'].value
-                }" (click)="randomize()">
-                <mat-icon>shuffle</mat-icon>
-                Randomize
-            </button>
-            <button mat-raised-button class="border-button" [ngStyle]="{
-                'color': form.controls['color'].value,
-                'border-color': form.controls['border-color'].value,
-                'background-color': form.controls['background-color'].value
-                }" (click)="save()">
-                <mat-icon>save</mat-icon>
-                Save
-            </button>
-        </div>
-
-    </form>
+    </section>
+    <section class="button-bar">
+        <button mat-flat-button class="border-button" [ngStyle]="{
+            'color': form.controls['color'].value,
+            'border-color': form.controls['border-color'].value,
+            'background-color': form.controls['background-color'].value
+            }" (click)="randomize()">
+            <mat-icon>shuffle</mat-icon>
+            Randomize
+        </button>
+        <button mat-raised-button class="border-button" [ngStyle]="{
+            'color': form.controls['color'].value,
+            'border-color': form.controls['border-color'].value,
+            'background-color': form.controls['background-color'].value
+            }" (click)="save()">
+            <mat-icon>save</mat-icon>
+            Save
+        </button>
+    </section>
 </div>

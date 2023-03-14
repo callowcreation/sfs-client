@@ -12,8 +12,8 @@ export class AppearanceComponent {
 
     form: FormGroup = new FormGroup({
         color: new FormControl('#FFFFFF' as string),
-        ['border-color']: new FormControl('#FFFFFF' as string),
-        ['background-color']: new FormControl('#000000' as string),
+        'border-color': new FormControl('#FFFFFF' as string),
+        'background-color': new FormControl('#000000' as string),
     });
 
     constructor(public settings: SettingsService) {

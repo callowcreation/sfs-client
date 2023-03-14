@@ -10,6 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { WindowRef } from './window-ref';
 
@@ -30,6 +31,8 @@ import { BackendHeaderInterceptor } from './interceptors/backend-header.intercep
 // import { UncaughtErrorHandlerService } from './services/uncaught-error-handler.service';
 import { DynamicUserPipe } from './pipes/dynamic-user.pipe';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BehaviourComponent } from './components/configuration/behaviour/behaviour.component';
+import { BitsComponent } from './components/configuration/bits/bits.component';
 
 
 const matModules: (any[] | Type<any> | ModuleWithProviders<{}>) = [
@@ -40,7 +43,8 @@ const matModules: (any[] | Type<any> | ModuleWithProviders<{}>) = [
     MatButtonModule,
     MatDialogModule,
     MatInputModule,
-    MatTabsModule
+    MatTabsModule,
+    MatCheckboxModule
 ];
 
 @NgModule({
@@ -55,6 +59,8 @@ const matModules: (any[] | Type<any> | ModuleWithProviders<{}>) = [
         ConfirmDialogComponent,
         AppearanceComponent,
         ConfigurationComponent,
+        BehaviourComponent,
+        BitsComponent,
     ],
     imports: [
         BrowserModule,
