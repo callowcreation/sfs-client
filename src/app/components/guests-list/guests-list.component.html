@@ -41,9 +41,9 @@
 <div class="list-container" [ngClass]="{'full-height': patrons.length === 0, 'pinned-height': patrons.length > 0}">
     <ul>
         <li class="row-layout" *ngFor="let guest of guests" [ngStyle]="{
-            'color': (settings.values$ | async)?.['color'],
-            'border-color': (settings.values$ | async)?.['border-color'],
-            'background-color': (settings.values$ | async)?.['background-color']
+            'color': (settings.appearance$ | async)?.['color'],
+            'border-color': (settings.appearance$ | async)?.['border-color'],
+            'background-color': (settings.appearance$ | async)?.['background-color']
         }">
             <div>
                 <a href="https://twitch.tv/{{guest.streamer_id | twitch_user:'login'}}" target="_blank">
@@ -61,14 +61,14 @@
             </div>
             <span class="action-layout" *ngIf="mode == 'viewer'">
                 <div class="action-item" *ngIf="patrons.length === 0" (click)="actionClick(guest, 'pin-item')" [ngClass]="{'action-disabled' : disableActions, '': !disableActions}" title="Pin to Top" [ngStyle]="{
-                    'color': (settings.values$ | async)?.['color'],
-                    'border-color': (settings.values$ | async)?.['border-color'],
-                    'background-color': (settings.values$ | async)?.['background-color']
+                    'color': (settings.appearance$ | async)?.['color'],
+                    'border-color': (settings.appearance$ | async)?.['border-color'],
+                    'background-color': (settings.appearance$ | async)?.['background-color']
                 }">🖈</div>
                 <div class="action-item" (click)="actionClick(guest, 'move-up')" [ngClass]="{'action-disabled' : disableActions, '': !disableActions}" title="Move Up" [ngStyle]="{
-                    'color': (settings.values$ | async)?.['color'],
-                    'border-color': (settings.values$ | async)?.['border-color'],
-                    'background-color': (settings.values$ | async)?.['background-color']
+                    'color': (settings.appearance$ | async)?.['color'],
+                    'border-color': (settings.appearance$ | async)?.['border-color'],
+                    'background-color': (settings.appearance$ | async)?.['background-color']
                 }">&#8682;</div>
             </span>
             <span class="action-layout" *ngIf="mode != 'viewer'">

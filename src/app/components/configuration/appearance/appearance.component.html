@@ -1,55 +1,55 @@
 <div [ngStyle]="{
-    'background-color': form.controls['background-color'].value,
-    'border-color': form.controls['border-color'].value
+    'background-color': appearance.value['background-color'],
+    'border-color': appearance.value['border-color']
     }" class="form-container">
-    <section [formGroup]="form">
+    <section [formGroup]="appearance">
         <div [ngStyle]="{
-        'border-color': form.controls['border-color'].value
+        'border-color': appearance.value['border-color']
         }" class="color-field">
             <mat-form-field>
                 <mat-label [ngStyle]="{
-                'color': form.controls['color'].value
-                }">Font Color {{form.controls['color'].value}}</mat-label>
-                <input type="color" matInput name="color-font" [value]="form.controls['color'].value" #icolor
+                'color': appearance.value['color']
+                }">Font Color {{appearance.value['color']}}</mat-label>
+                <input type="color" matInput name="color-font" [value]="appearance.value['color']" #icolor
                     (change)="colorChange(icolor.value, 'color')" />
             </mat-form-field>
         </div>
         <div [ngStyle]="{
-            'border-color': form.controls['border-color'].value
+            'border-color': appearance.value['border-color']
             }" class="color-field">
             <mat-form-field>
                 <mat-label [ngStyle]="{
-                    'color': form.controls['color'].value
-                    }">Border Color {{form.controls['border-color'].value}}</mat-label>
-                <input type="color" matInput name="color-border" [value]="form.controls['border-color'].value" #iborder
+                    'color': appearance.value['color']
+                    }">Border Color {{appearance.value['border-color']}}</mat-label>
+                <input type="color" matInput name="color-border" [value]="appearance.value['border-color']" #iborder
                     (change)="colorChange(iborder.value, 'border-color')" />
             </mat-form-field>
         </div>
         <div [ngStyle]="{
-            'border-color': form.controls['border-color'].value
+            'border-color': appearance.value['border-color']
             }" class="color-field">
             <mat-form-field>
                 <mat-label [ngStyle]="{
-                    'color': form.controls['color'].value
-                    }">Background Color {{form.controls['background-color'].value}}</mat-label>
-                <input type="color" matInput name="color-background" [value]="form.controls['background-color'].value"
+                    'color': appearance.value['color']
+                    }">Background Color {{appearance.value['background-color']}}</mat-label>
+                <input type="color" matInput name="color-background" [value]="appearance.value['background-color']"
                     #ibackground (change)="colorChange(ibackground.value, 'background-color')" />
             </mat-form-field>
         </div>
     </section>
     <section class="button-bar">
         <button mat-flat-button class="border-button" [ngStyle]="{
-            'color': form.controls['color'].value,
-            'border-color': form.controls['border-color'].value,
-            'background-color': form.controls['background-color'].value
+            'color': appearance.value['color'],
+            'border-color': appearance.value['border-color'],
+            'background-color': appearance.value['background-color']
             }" (click)="randomize()">
             <mat-icon>shuffle</mat-icon>
             Randomize
         </button>
         <button mat-raised-button class="border-button" [ngStyle]="{
-            'color': form.controls['color'].value,
-            'border-color': form.controls['border-color'].value,
-            'background-color': form.controls['background-color'].value
+            'color': appearance.value['color'],
+            'border-color': appearance.value['border-color'],
+            'background-color': appearance.value['background-color']
             }" (click)="save()">
             <mat-icon>save</mat-icon>
             Save

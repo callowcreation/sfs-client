@@ -11,6 +11,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSliderModule } from '@angular/material/slider';
 
 import { WindowRef } from './window-ref';
 
@@ -44,7 +45,8 @@ const matModules: (any[] | Type<any> | ModuleWithProviders<{}>) = [
     MatDialogModule,
     MatInputModule,
     MatTabsModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatSliderModule
 ];
 
 @NgModule({

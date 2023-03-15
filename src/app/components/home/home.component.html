@@ -1,9 +1,9 @@
 <div class="page-container" [ngStyle]="{
-    'color': (settings.values$ | async)?.['color'],
-    'border-color': (settings.values$ | async)?.['border-color'],
-    'background-color': (settings.values$ | async)?.['background-color']
+    'color': (settings.appearance$ | async)?.['color'],
+    'border-color': (settings.appearance$ | async)?.['border-color'],
+    'background-color': (settings.appearance$ | async)?.['background-color']
 }">
-    <div class="page-header" [ngStyle]="{'border-color': (settings.values$ | async)?.['border-color']}">
+    <div class="page-header" [ngStyle]="{'border-color': (settings.appearance$ | async)?.['border-color']}">
         <h2>Shoutouts for Streamers</h2>
     </div>
     <!-- <app-guests-list></app-guests-list> -->

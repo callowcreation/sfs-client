@@ -16,8 +16,12 @@ export class BehaviourComponent {
     });
     
     constructor(public settings: SettingsService) {
-        settings.values$.subscribe(value => {
-            this.behaviour.setValue(value);
+        settings.behaviour$.subscribe(value => {
+            SettingsService.SetSelective(value, this.behaviour);
         });
+    }
+    
+    save() {
+        this.settings.updateBehaviour(this.behaviour.value);
     }
 }

@@ -1,6 +1,5 @@
 import { Component, Input, TemplateRef } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { take } from 'rxjs';
 import { SettingsService } from 'src/app/services/settings.service';
 
 @Component({
@@ -10,28 +9,28 @@ import { SettingsService } from 'src/app/services/settings.service';
 })
 export class AppearanceComponent {
 
-    form: FormGroup = new FormGroup({
+    appearance: FormGroup = new FormGroup({
         color: new FormControl('#FFFFFF' as string),
         'border-color': new FormControl('#FFFFFF' as string),
         'background-color': new FormControl('#000000' as string),
     });
 
     constructor(public settings: SettingsService) {
-        settings.values$.subscribe(value => {
-            this.form.setValue(value);
+        settings.appearance$.subscribe(value => {
+            SettingsService.SetSelective(value, this.appearance);
         });
     }
 
     colorChange(value: string, prop: string) {
-        this.form.controls[prop].setValue(value);
+        this.appearance.controls[prop].setValue(value);
     }
 
     save() {
-        this.settings.updateApperance(this.form.value);
+        this.settings.updateApperance(this.appearance.value);
     }
 
     randomize() {
-        this.form.patchValue({
+        this.appearance.patchValue({
             'background-color': this.rndColor(),
             'border-color': this.rndColor(),
             'color': this.rndColor()
