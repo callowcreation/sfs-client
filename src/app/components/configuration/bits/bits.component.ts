@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { SettingsService, Tier } from 'src/app/services/settings.service';
 
-
 @Component({
   selector: 'app-bits',
   templateUrl: './bits.component.html',
@@ -11,21 +10,13 @@ import { SettingsService, Tier } from 'src/app/services/settings.service';
 export class BitsComponent {
 
     bits: FormGroup = new FormGroup({
-        'enable-bits': new FormControl(false),
-        'bits-tier': new FormControl('Tier 1'),
-        'pin-days': new FormControl(3),
+        'enable-bits': new FormControl(this.settings.bits$.value['enable-bits'] as boolean),
+        'bits-tier': new FormControl(this.settings.bits$.value['bits-tier'] as Tier),
+        'pin-days': new FormControl(this.settings.bits$.value['pin-days'] as number),
     });
     
     options: Tier[] = ['Tier 1', 'Tier 2', 'Tier 3'];
     option: Tier = 'Tier 1';
     
-    constructor(public settings: SettingsService) {
-        settings.bits$.subscribe(value => {
-            SettingsService.SetSelective(value, this.bits);
-        });
-    }
-
-    save() {
-        this.settings.updateBits(this.bits.value);
-    }
+    constructor(public settings: SettingsService) {}
 }

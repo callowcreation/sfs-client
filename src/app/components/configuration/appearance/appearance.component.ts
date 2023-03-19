@@ -1,4 +1,4 @@
-import { Component, Input, TemplateRef } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { SettingsService } from 'src/app/services/settings.service';
 
@@ -10,23 +10,15 @@ import { SettingsService } from 'src/app/services/settings.service';
 export class AppearanceComponent {
 
     appearance: FormGroup = new FormGroup({
-        color: new FormControl('#FFFFFF' as string),
-        'border-color': new FormControl('#FFFFFF' as string),
-        'background-color': new FormControl('#000000' as string),
+        color: new FormControl(this.settings.appearance$.value['color'] as string),
+        'border-color': new FormControl(this.settings.appearance$.value['border-color'] as string),
+        'background-color': new FormControl(this.settings.appearance$.value['background-color'] as string),
     });
 
-    constructor(public settings: SettingsService) {
-        settings.appearance$.subscribe(value => {
-            SettingsService.SetSelective(value, this.appearance);
-        });
-    }
+    constructor(public settings: SettingsService) {}
 
     colorChange(value: string, prop: string) {
         this.appearance.controls[prop].setValue(value);
-    }
-
-    save() {
-        this.settings.updateApperance(this.appearance.value);
     }
 
     randomize() {
@@ -36,8 +28,8 @@ export class AppearanceComponent {
             'color': this.rndColor()
         });
     }
-    
+
     rndColor(): string {
-        return `#${Math.floor(Math.random()*16777215).toString(16).padStart(6, '0').toUpperCase()}`;
+        return `#${Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0').toUpperCase()}`;
     }
 }

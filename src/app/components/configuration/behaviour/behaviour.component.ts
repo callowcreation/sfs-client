@@ -10,18 +10,10 @@ import { SettingsService } from 'src/app/services/settings.service';
 export class BehaviourComponent {
 
     behaviour: FormGroup = new FormGroup({
-        'auto-shoutouts': new FormControl(false),
-        'badge-vip': new FormControl(false),
-        'commands': new FormControl(['so', 'shoutout'])
+        'auto-shoutouts': new FormControl(this.settings.behaviour$.value['auto-shoutouts'] as boolean),
+        'badge-vip': new FormControl(this.settings.behaviour$.value['badge-vip'] as boolean),
+        'commands': new FormControl(this.settings.behaviour$.value['commands'] as string[])
     });
     
-    constructor(public settings: SettingsService) {
-        settings.behaviour$.subscribe(value => {
-            SettingsService.SetSelective(value, this.behaviour);
-        });
-    }
-    
-    save() {
-        this.settings.updateBehaviour(this.behaviour.value);
-    }
+    constructor(public settings: SettingsService) {}
 }

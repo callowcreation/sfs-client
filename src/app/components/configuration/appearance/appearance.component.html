@@ -50,7 +50,7 @@
             'color': appearance.value['color'],
             'border-color': appearance.value['border-color'],
             'background-color': appearance.value['background-color']
-            }" (click)="save()">
+            }" (click)="settings.update(appearance.value)">
             <mat-icon>save</mat-icon>
             Save
         </button>

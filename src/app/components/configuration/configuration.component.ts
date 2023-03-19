@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { SettingsService } from 'src/app/services/settings.service';
 
 @Component({
   selector: 'app-configuration',
@@ -7,4 +8,7 @@ import { Component } from '@angular/core';
 })
 export class ConfigurationComponent {
 
+    @Input() showSettings: boolean = false;
+
+    constructor(public settings: SettingsService) {}
 }

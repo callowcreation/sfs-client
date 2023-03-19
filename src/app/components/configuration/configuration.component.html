@@ -1,18 +1,23 @@
-
-<mat-tab-group dynamicHeight [selectedIndex]="1">
-    <mat-tab label="Appearance">
-      <div class="example-small-box mat-elevation-z4">
-        <app-appearance></app-appearance>
-      </div>
-    </mat-tab>
-    <mat-tab label="Behaviour">
-      <div class="example-large-box mat-elevation-z4">
-        <app-behaviour></app-behaviour>
-      </div>
-    </mat-tab>
-    <mat-tab label="Bits">
-      <div class="example-large-box mat-elevation-z4">
-        <app-bits></app-bits>
-      </div>
-    </mat-tab>
-  </mat-tab-group>
+<div class="container" *ngIf="settings.appearance$ | async as appearance" [ngStyle]="{
+    'color': appearance['color'],
+    'border-color': appearance['border-color'],
+    'background-color': appearance['background-color']
+}">
+    <mat-tab-group *ngIf="showSettings" dynamicHeight [selectedIndex]="0">
+        <mat-tab label="Appearance">
+            <div class="example-small-box mat-elevation-z4">
+                <app-appearance></app-appearance>
+            </div>
+        </mat-tab>
+        <mat-tab label="Behaviour">
+            <div class="example-large-box mat-elevation-z4">
+                <app-behaviour></app-behaviour>
+            </div>
+        </mat-tab>
+        <mat-tab label="Bits">
+            <div class="example-large-box mat-elevation-z4">
+                <app-bits></app-bits>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+</div>

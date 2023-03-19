@@ -1,6 +1,6 @@
 .page-container {
-    text-align: center; 
-    position: absolute; 
+    text-align: center;
+    position: absolute;
     width: 318px;
     height: 300px;
 }
@@ -9,4 +9,43 @@
     background-color: transparent;
     border-bottom-width: 1px;
     border-bottom-style: solid;
+    font-size: 20px;
+    font-weight: bold;
+    height: 50px;
+    position: relative;
+}
+
+.center div {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+}
+
+.settings-gear {
+    transition: all .25s ease-out;
+	user-select: none;
+	position: absolute;
+	width: 24px;
+	height: 24px;
+	top: 3px;
+	right: 3px;
+	opacity: 0.5;
+	cursor: pointer;
+    z-index: 1;
+
+	transition: opacity .25s;
+	transition: transform .25s ease-in;
+
+	&:hover {
+		opacity: 1;
+		transform: rotate(360deg);
+	}
+
+	img {
+		width: 100%;
+		height: 100%;
+	}
 }

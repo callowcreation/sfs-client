@@ -1,3 +1,9 @@
+::ng-deep .mdc-text-field {
+    background-color: transparent !important;
+    // margin-bottom: -1.0em;
+    border: 0px solid transparent;
+}
+
 .example-small-box,
 .example-large-box {
     display: flex;
@@ -7,4 +13,12 @@
     padding: 0;
     height: 230px;
     overflow-y: auto;
+}
+
+.container {
+    position: absolute;
+    top: 50px;
+    left: 0px;
+    width: 318px;
+    border-top: 1px solid transparent;
 }

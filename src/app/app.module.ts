@@ -1,4 +1,4 @@
-import { ErrorHandler, ModuleWithProviders, NgModule, Type } from '@angular/core';
+import { ModuleWithProviders, NgModule, Type } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -17,7 +17,7 @@ import { WindowRef } from './window-ref';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
-import { GuestsListComponent } from './components/guests-list/guests-list.component';
+import { GuestListComponent } from './components/guest-list/guest-list.component';
 import { ErrorNoticeComponent } from './components/error-notice/error-notice.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { ConfigurationComponent } from './components/configuration/configuration.component';
@@ -53,7 +53,7 @@ const matModules: (any[] | Type<any> | ModuleWithProviders<{}>) = [
     declarations: [
         AppComponent,
         HomeComponent,
-        GuestsListComponent,
+        GuestListComponent,
         UserPipe,
         DynamicUserPipe,
         TruncatePipe,

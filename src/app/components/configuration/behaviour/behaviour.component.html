@@ -1,31 +1,31 @@
-<div [ngStyle]="{
-    'border-color': (settings.appearance$ | async)?.['border-color'],
-    'color': (settings.appearance$ | async)?.['color']
+<div *ngIf="settings.appearance$ | async as appearance" [ngStyle]="{
+    'border-color': appearance['border-color'],
+    'color': appearance['color']
     }" class="form-container" [formGroup]="behaviour">
 
     <section class="input-section">
         <p>
             <mat-checkbox formControlName="auto-shoutouts"><span [ngStyle]="{
-        'background-color': (settings.appearance$ | async)?.['background-color'],
-        'border-color': (settings.appearance$ | async)?.['border-color'],
-        'color': (settings.appearance$ | async)?.['color']
+        'background-color': appearance['background-color'],
+        'border-color': appearance['border-color'],
+        'color': appearance['color']
         }">Auto Shoutout</span></mat-checkbox>
         </p>
         <p>
             <mat-checkbox formControlName="badge-vip"><span [ngStyle]="{
-        'background-color': (settings.appearance$ | async)?.['background-color'],
-        'border-color': (settings.appearance$ | async)?.['border-color'],
-        'color': (settings.appearance$ | async)?.['color']
+        'background-color': appearance['background-color'],
+        'border-color': appearance['border-color'],
+        'color': appearance['color']
         }">Badge Vip</span></mat-checkbox>
         </p>
     </section>
 
     <section class="button-bar">
         <button mat-raised-button class="border-button" [ngStyle]="{
-                'color': (settings.appearance$ | async)?.['color'],
-                'border-color': (settings.appearance$ | async)?.['border-color'],
-                'background-color': (settings.appearance$ | async)?.['background-color']
-                }" (click)="save()">
+                'color': appearance['color'],
+                'border-color': appearance['border-color'],
+                'background-color': appearance['background-color']
+                }" (click)="settings.update(behaviour.value)">
             <mat-icon>save</mat-icon>
             Save
         </button>

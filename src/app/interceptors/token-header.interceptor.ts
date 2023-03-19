@@ -18,8 +18,8 @@ export class TokenHeaderInterceptor implements HttpInterceptor {
         if (req.url.includes(environment.twitch.api)) {
             const clone = req.clone({
                 headers: req.headers
-                    .set('client-id', '0ghp1wfzi7hdp144bpwagh9q86xjkg')
-                    .set('Authorization', 'Extension ' + this.twitchLib.auth.helixToken)
+                    .set('client-id', this.twitchLib.authorized$.value.clientId)
+                    .set('Authorization', 'Extension ' + this.twitchLib.authorized$.value.helixToken)
             });
             return next.handle(clone);
         }

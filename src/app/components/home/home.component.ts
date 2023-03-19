@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { SettingsService } from 'src/app/services/settings.service';
+import { Appearance, SettingsService } from 'src/app/services/settings.service';
+import { TwitchLibService } from 'src/app/services/twitch-lib.service';
 
 @Component({
   selector: 'app-home',
@@ -7,5 +8,10 @@ import { SettingsService } from 'src/app/services/settings.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
-    constructor(public settings: SettingsService) { }
+    
+    showSettings: boolean = false;
+
+    constructor(public settings: SettingsService, public twitchLib: TwitchLibService) {
+
+    }
 }

@@ -1,12 +1,13 @@
-<div class="page-container" [ngStyle]="{
-    'color': (settings.appearance$ | async)?.['color'],
-    'border-color': (settings.appearance$ | async)?.['border-color'],
-    'background-color': (settings.appearance$ | async)?.['background-color']
+<div class="page-container" *ngIf="settings.appearance$ | async as appearance" [ngStyle]="{
+    'color': appearance['color'],
+    'border-color': appearance['border-color'],
+    'background-color': appearance['background-color']
 }">
-    <div class="page-header" [ngStyle]="{'border-color': (settings.appearance$ | async)?.['border-color']}">
-        <h2>Shoutouts for Streamers</h2>
+    <span *ngIf="((twitchLib.context$ | async)?.mode || 'viewer') != 'viewer'" class="settings-gear" (click)="showSettings = !showSettings" title="{{showSettings ? 'Close' : 'Open'}} Configuration"><img src="gear.svg" /></span>
+    <div class="page-header center" [ngStyle]="{'border-color': appearance['border-color']}">
+        <div>Shoutouts for Streamers</div>
     </div>
-    <!-- <app-guests-list></app-guests-list> -->
-    <app-configuration></app-configuration>
+    <app-guest-list [showSettings]="showSettings"></app-guest-list>
+    <app-configuration [showSettings]="showSettings"></app-configuration>
 
 </div>
