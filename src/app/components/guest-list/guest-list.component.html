@@ -1,8 +1,10 @@
-<ng-container>
-    <app-error-notice *ngIf="error" class="error" [error]="error"></app-error-notice>
+<app-error-notice *ngIf="error" class="error" [error]="error"></app-error-notice>
+<ng-container *ngIf="rawUsers.patrons$ | async as patrons">
     <div class="list-container-pinned" *ngIf="((twitchLib.context$ | async)?.mode) as mode">
         <ul *ngIf="settings.appearance$ | async as appearance">
-            <li class="row-layout" *ngFor="let patron of rawUsers.patrons$ | async">
+            <li class="row-layout" *ngFor="let patron of patrons" [ngStyle]="{
+                'border-color': appearance['border-color']
+            }">
                 <div>
                     <a href="https://twitch.tv/{{patron.streamer_id | twitch_user:'login'}}" target="_blank">
                         <img class="profile_image_url" title="Visit {{patron.streamer_id | twitch_user:'display_name'}}"
@@ -19,32 +21,31 @@
                 </div>
                 <span class="action-layout" *ngIf="mode == 'viewer'">
                     <div class="non-action-item">
-                        <img class="poster_img pinner_img" title="Pin by {{patron.pinner_id | dynamic_user:'display_name' | async}}"
-                        src="{{patron.pinner_id | dynamic_user:'profile_image_url' | async}}">
+                        <img class="poster_img pinner_img"
+                            title="Pin by {{patron.pinner_id | dynamic_user:'display_name' | async}}"
+                            src="{{patron.pinner_id | dynamic_user:'profile_image_url' | async}}">
                     </div>
                 </span>
                 <span class="action-layout" *ngIf="mode != 'viewer'">
                     <div class="non-action-item">
-                        🖈
-                    </div>
-                    <div class="non-action-item">
                         <img class="poster_img pinner_img" title="Pin expires {{patron.timestamp | date:'short'}}"
-                        src="{{patron.pinner_id | dynamic_user:'profile_image_url' | async}}">
+                            src="{{patron.pinner_id | dynamic_user:'profile_image_url' | async}}">
                     </div>
                 </span>
             </li>
         </ul>
     </div>
-    <div *ngIf="(rawUsers.guests$ | async)?.length === 0" class="empty-list">
-        <img class="empty-list-img" src="logo_1.svg" />
-        <h4 class="empty-list-title">No Shoutouts Yet</h4>
-    </div>
-    <div class="list-container" [ngClass]="{'full-height': patrons.length === 0, 'pinned-height': patrons.length > 0}" *ngIf="((twitchLib.context$ | async)?.mode) as mode">
+</ng-container>
+<div *ngIf="(rawUsers.guests$ | async)?.length === 0" class="empty-list">
+    <img class="empty-list-img" src="logo_1.svg" />
+    <h4 class="empty-list-title">No Shoutouts Yet</h4>
+</div>
+<ng-container *ngIf="rawUsers.guests$ | async as guests">
+    <div class="list-container" [ngClass]="{'full-height': !hasPatrons, 'pinned-height': hasPatrons}"
+        *ngIf="((twitchLib.context$ | async)?.mode) as mode">
         <ul *ngIf="settings.appearance$ | async as appearance">
-            <li class="row-layout" *ngFor="let guest of rawUsers.guests$ | async" [ngStyle]="{
-                'color': appearance['color'],
-                'border-color': appearance['border-color'],
-                'background-color': appearance['background-color']
+            <li class="row-layout" *ngFor="let guest of guests; let indexOfelement = index;" [ngStyle]="{
+                'border-color': appearance['border-color']
             }">
                 <div>
                     <a href="https://twitch.tv/{{guest.streamer_id | twitch_user:'login'}}" target="_blank">
@@ -61,19 +62,24 @@
                     </div>
                 </div>
                 <span class="action-layout" *ngIf="mode == 'viewer'">
-                    <div class="action-item" *ngIf="patrons.length === 0" (click)="actionClick(guest, 'pin-item')" [ngClass]="{'action-disabled' : disableActions, '': !disableActions}" title="Pin to Top" [ngStyle]="{
+                    <div class="action-item" *ngIf="!hasPatrons" (click)="actionClick(guest, 'pin-item')"
+                        [ngClass]="{'action-disabled' : disableActions, '': !disableActions}" title="Pin to Top"
+                        [ngStyle]="{
                         'color': appearance['color'],
                         'border-color': appearance['border-color'],
                         'background-color': appearance['background-color']
                     }">🖈</div>
-                    <div class="action-item" (click)="actionClick(guest, 'move-up')" [ngClass]="{'action-disabled' : disableActions, '': !disableActions}" title="Move Up" [ngStyle]="{
+                    <div class="action-item" *ngIf="indexOfelement > 0" (click)="actionClick(guest, 'move-up')"
+                        [ngClass]="{'action-disabled' : disableActions, '': !disableActions}" title="Move Up" [ngStyle]="{
                         'color': appearance['color'],
                         'border-color': appearance['border-color'],
                         'background-color': appearance['background-color']
                     }">&#8682;</div>
                 </span>
                 <span class="action-layout" *ngIf="mode != 'viewer'">
-                    <div class="action-item remove-action-item" (click)="removeItem(guest)" [ngClass]="{'action-disabled' : disableActions, '': !disableActions}" title="Remove {{guest.streamer_id | twitch_user:'display_name'}}">&#x274C;</div>
+                    <div class="action-item remove-action-item" (click)="removeItem(guest)"
+                        [ngClass]="{'action-disabled' : disableActions, '': !disableActions}"
+                        title="Remove {{guest.streamer_id | twitch_user:'display_name'}}">&#x274C;</div>
                 </span>
             </li>
         </ul>
