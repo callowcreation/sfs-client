@@ -16,6 +16,7 @@ export class BackendHeaderInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     if (req.url.includes(environment.backend.api)) {
+        console.log(this.twitchLib.authorized$.value.token);
         const clone = req.clone({
             headers: req.headers
                 .set('Authorization', 'Bearer ' + this.twitchLib.authorized$.value.token)

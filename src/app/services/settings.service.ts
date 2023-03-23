@@ -69,7 +69,7 @@ export class SettingsService {
     }
 
     update(values: any) {
-        this.backendApi.put<Settings>(`/settings/${this.twitchLib.authorized$.value.channelId}`, { values }).subscribe((value) => {
+        this.backendApi.patch<Settings>(`/settings/${this.twitchLib.authorized$.value.channelId}`, { values }).subscribe((value) => {
             console.log(value);
             this.twitchLib.send({ internal: { settings: value } });
         });

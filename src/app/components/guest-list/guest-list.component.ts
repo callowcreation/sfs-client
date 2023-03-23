@@ -13,6 +13,7 @@ import { TwitchUsersService } from 'src/app/services/twitch-users.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { RawUsersService } from 'src/app/services/raw-users.service';
+import { Warning } from '../warning-notice/warning-notice.component';
 
 @Component({
     selector: 'app-guest-list',
@@ -26,6 +27,7 @@ export class GuestListComponent {
     disableActions: boolean = false;
 
     error: Error | null = null;
+    warning: Warning | null = null;
 
     get hasPatrons(): boolean {
         return this.rawUsers.patrons$.value.length > 0;
@@ -39,12 +41,21 @@ export class GuestListComponent {
         public settings: SettingsService,
         public dialog: MatDialog) {
     }
-    
+
     ngOnInit() {
 
         this.twitchLib.authorized$.subscribe((auth: TwitchAuth) => {
-            if(!auth.channelId) return;
-            this.rawUsers.getShoutouts(auth.channelId);
+            if (!auth.channelId) return;
+
+            this.backendApi.get(`/shoutouts/${auth.channelId}/migration`)
+                .subscribe((value: any) => {
+                    if(value.migrate) {
+                        this.warning = new Warning(`We are still migrating data, this message will go away automatically.`);
+                    } else {
+                        this.rawUsers.getShoutouts(auth.channelId);
+                    }
+                    console.log({ migration: value })
+                });
         });
 
         this.twitchLib.pubsub$.subscribe(value => {
@@ -53,6 +64,11 @@ export class GuestListComponent {
             if (value.internal && value.internal.disableActions) {
                 this.disableActions = value.internal.disableActions;
                 return;
+            }
+
+            if(value.action === 'migration') {
+                this.warning = null;
+                this.rawUsers.getShoutouts(this.twitchLib.authorized$.value.channelId);
             }
 
             this.disableActions = true;
@@ -115,7 +131,7 @@ export class GuestListComponent {
         });
 
         bits.onTransactionComplete((transaction: TransactionObject) => {
-            this.backendApi.put<PinItem>(`/shoutouts/${this.twitchLib.authorized$.value.channelId}/${action}`, { pinner_id: transaction.userId, key: guest.key }).subscribe(value => {
+            this.backendApi.patch<PinItem>(`/shoutouts/${this.twitchLib.authorized$.value.channelId}/${action}`, { pinner_id: transaction.userId, key: guest.key }).subscribe(value => {
                 console.log({ TransactionComplete: value })
             });
         });

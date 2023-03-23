@@ -1,4 +1,5 @@
-<app-error-notice *ngIf="error" class="error" [error]="error"></app-error-notice>
+<app-error-notice *ngIf="error" class="error-notice" [error]="error"></app-error-notice>
+<app-warning-notice *ngIf="warning" class="warning-notice" [warning]="warning"></app-warning-notice>
 <ng-container *ngIf="rawUsers.patrons$ | async as patrons">
     <div class="list-container-pinned" *ngIf="((twitchLib.context$ | async)?.mode) as mode">
         <ul *ngIf="settings.appearance$ | async as appearance">

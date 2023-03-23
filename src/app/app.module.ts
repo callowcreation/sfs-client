@@ -19,6 +19,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { GuestListComponent } from './components/guest-list/guest-list.component';
 import { ErrorNoticeComponent } from './components/error-notice/error-notice.component';
+import { WarningNoticeComponent } from './components/warning-notice/warning-notice.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { ConfigurationComponent } from './components/configuration/configuration.component';
 import { AppearanceComponent } from './components/configuration/appearance/appearance.component';
@@ -58,6 +59,7 @@ const matModules: (any[] | Type<any> | ModuleWithProviders<{}>) = [
         DynamicUserPipe,
         TruncatePipe,
         ErrorNoticeComponent,
+        WarningNoticeComponent,
         ConfirmDialogComponent,
         AppearanceComponent,
         ConfigurationComponent,

@@ -14,12 +14,34 @@ export class BackendApiService {
         return this.http.get<T>(`${environment.backend.api}${endpoint}`);
     }
 
+    /**
+     * POST creates a resource.
+     * @param endpoint 
+     * @param payload 
+     * @returns 
+     */
     post<T>(endpoint: string, payload: any): Observable<T> {
         return this.http.post<T>(`${environment.backend.api}${endpoint}`, payload);
     }
 
+    /**
+     * PUT replaces a resource.
+     * @param endpoint 
+     * @param payload 
+     * @returns 
+     */
     put<T>(endpoint: string, payload: any): Observable<T> {
         return this.http.put<T>(`${environment.backend.api}${endpoint}`, payload);
+    }
+
+    /**
+     * PATCH updates a resource.
+     * @param endpoint 
+     * @param payload 
+     * @returns 
+     */
+    patch<T>(endpoint: string, payload: any): Observable<T> {
+        return this.http.patch<T>(`${environment.backend.api}${endpoint}`, payload);
     }
 
     delete<T>(endpoint: string): Observable<T> {

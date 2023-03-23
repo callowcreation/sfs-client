@@ -170,12 +170,23 @@ img {
     margin-top: 5px;
 }
 
-.error {
+.error-notice {
     position: absolute;
     bottom: 0;
-    width: 100%;
     left: 0;
+    width: 100%;
     border-bottom-left-radius: 2px;
     border-bottom-right-radius: 2px;
     z-index: 1;
+}
+
+.warning-notice {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+    z-index: 1;
+    // background-color: #fff700;
 }
