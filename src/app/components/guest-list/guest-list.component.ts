@@ -50,7 +50,7 @@ export class GuestListComponent {
             this.backendApi.get(`/shoutouts/${auth.channelId}/migration`)
                 .subscribe((value: any) => {
                     if(value.migrate) {
-                        this.warning = new Warning(`We are still migrating data, this message will go away automatically.`);
+                        this.warning = new Warning(`We are still migrating data ${value.counter} of ${value.total}, this message will go away automatically.`);
                     } else {
                         this.rawUsers.getShoutouts(auth.channelId);
                     }
@@ -67,8 +67,12 @@ export class GuestListComponent {
             }
 
             if(value.action === 'migration') {
-                this.warning = null;
-                this.rawUsers.getShoutouts(this.twitchLib.authorized$.value.channelId);
+                if(value.migrate === false) {
+                    this.warning = null;
+                    this.rawUsers.getShoutouts(this.twitchLib.authorized$.value.channelId);
+                } else {
+                    this.warning = new Warning(`We are still migrating data ${value.counter} of ${value.total}, this message will go away automatically.`);
+                }
             }
 
             this.disableActions = true;
