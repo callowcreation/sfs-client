@@ -62,7 +62,7 @@
                         {{guest.streamer_id | twitch_user:'description' | truncate:80}}
                     </div>
                 </div>
-                <span class="action-layout" *ngIf="mode == 'viewer'">
+                <span class="action-layout" *ngIf="mode == 'viewer' && !warning">
                     <div class="action-item" *ngIf="!hasPatrons" (click)="actionClick(guest, 'pin-item')"
                         [ngClass]="{'action-disabled' : disableActions, '': !disableActions}" title="Pin to Top"
                         [ngStyle]="{

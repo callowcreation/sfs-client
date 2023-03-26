@@ -88,6 +88,16 @@ export class RawUsersService {
         });
     }
 
+    public getLegacyShoutouts(broadcaster_id: string) {
+
+        this.backendApi.get<any>(`/shoutouts/${broadcaster_id}/legacy`).subscribe(data => {
+            const flatData = data.map(this.guestIds).flat();
+            this.twitchUsers.append(flatData).then(() => {
+                this.guests$.next(this.removeDuplicates(data));
+            });
+        });
+    }
+
     private removeDuplicates<T extends Guest>(arr: T[]): T[] {
         return arr.filter((value: T, index, self) =>
             index === self.findIndex((t: T) => {

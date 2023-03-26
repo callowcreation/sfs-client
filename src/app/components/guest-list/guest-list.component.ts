@@ -51,6 +51,7 @@ export class GuestListComponent {
                 .subscribe((value: any) => {
                     if(value.migrate) {
                         this.warning = new Warning(`We are still migrating data ${value.counter} of ${value.total}, this message will go away automatically.`);
+                        this.rawUsers.getLegacyShoutouts(auth.channelId);
                     } else {
                         this.rawUsers.getShoutouts(auth.channelId);
                     }
@@ -72,6 +73,7 @@ export class GuestListComponent {
                     this.rawUsers.getShoutouts(this.twitchLib.authorized$.value.channelId);
                 } else {
                     this.warning = new Warning(`We are still migrating data ${value.counter} of ${value.total}, this message will go away automatically.`);
+                    this.rawUsers.getLegacyShoutouts(this.twitchLib.authorized$.value.channelId);
                 }
             }
 
