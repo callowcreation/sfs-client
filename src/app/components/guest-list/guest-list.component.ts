@@ -62,8 +62,8 @@ export class GuestListComponent {
         this.twitchLib.pubsub$.subscribe(value => {
             console.log({ pubsub: value })
 
-            if (value.internal && value.internal.disableActions) {
-                this.disableActions = value.internal.disableActions;
+            if (value.self && value.self.disableActions) {
+                this.disableActions = value.self.disableActions;
                 return;
             }
 
@@ -92,9 +92,9 @@ export class GuestListComponent {
 
         if (this.disableActions) return;
         this.disableActions = true;
-        this.twitchLib.send({ internal: { disableActions: this.disableActions } });
+        this.twitchLib.send({ self: { disableActions: this.disableActions } });
 
-        const displayName = this.twitchUsers.user(guest.streamer_id).display_name;
+        const displayName: string = this.twitchUsers.user(guest.streamer_id).display_name;
         const dialogRef = this.dialog.open(ConfirmDialogComponent, { data: { content: `Remove shoutout for ${displayName}?` } });
         dialogRef.afterClosed().subscribe(result => {
             if (coerceBooleanProperty(result) === true) {
@@ -104,13 +104,13 @@ export class GuestListComponent {
                     console.log(`Delete ${displayName} was cancelled`);
                     this.disableActions = false;
 
-                    this.twitchLib.send({ internal: { disableActions: this.disableActions } });
+                    this.twitchLib.send({ self: { disableActions: this.disableActions } });
                 });
             }
         });
     }
 
-    actionClick(guest: Guest, action: 'move-up' | 'pin-item') {
+    actionClick(guest: Guest, action: 'move-up' | 'pin-item'): void {
         // try {
         //     ({} as any).willThrow();
         // } catch (error) {
@@ -123,7 +123,7 @@ export class GuestListComponent {
         if (this.disableActions) return;
         this.disableActions = true;
 
-        this.twitchLib.send({ internal: { disableActions: this.disableActions } });
+        this.twitchLib.send({ self: { disableActions: this.disableActions } });
 
         const bits = this.twitchLib.bits;
 
@@ -132,7 +132,7 @@ export class GuestListComponent {
                 console.log(`Transaction ${action} was cancelled`);
                 this.disableActions = false;
 
-                this.twitchLib.send({ internal: { disableActions: this.disableActions } });
+                this.twitchLib.send({ self: { disableActions: this.disableActions } });
             });
         });
 

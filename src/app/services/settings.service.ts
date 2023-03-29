@@ -1,28 +1,10 @@
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { BehaviorSubject, first, Observable, Subject, take } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
+import { Appearance, Behaviour, Bits, Settings } from '../interfaces/settings';
 import { TwitchAuth } from '../interfaces/twitch-auth';
 import { BackendApiService } from './backend-api.service';
 import { TwitchLibService } from './twitch-lib.service';
-
-export type Tier = 'Tier 1' | 'Tier 2' | 'Tier 3';
-
-export interface Appearance {
-    'background-color': string;
-    'border-color': string;
-    'color': string;
-}
-export interface Behaviour {
-    'auto-shoutouts': boolean;
-    'badge-vip': boolean;
-    'commands': string[];
-}
-export interface Bits {
-    'enable-bits': boolean;
-    'bits-tier': Tier;
-    'pin-days': number;
-}
-export interface Settings extends Bits, Behaviour, Appearance { }
 
 const defaultSettings: Settings = {
     'background-color': '#6441A5',
@@ -60,10 +42,10 @@ export class SettingsService {
         });
 
         this.twitchLib.pubsub$.subscribe(value => {
-            if (value.internal && value.internal.settings) {
-                this.appearance$.next(value.internal.settings);
-                this.behaviour$.next(value.internal.settings);
-                this.bits$.next(value.internal.settings);
+            if (value.self && value.self.settings) {
+                this.appearance$.next(value.self.settings);
+                this.behaviour$.next(value.self.settings);
+                this.bits$.next(value.self.settings);
             }
         });
     }
@@ -71,7 +53,7 @@ export class SettingsService {
     update(values: any) {
         this.backendApi.patch<Settings>(`/settings/${this.twitchLib.authorized$.value.channelId}`, { values }).subscribe((value) => {
             console.log(value);
-            this.twitchLib.send({ internal: { settings: value } });
+            this.twitchLib.send({ self: { settings: value } });
         });
     }
 

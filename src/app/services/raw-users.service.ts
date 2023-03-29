@@ -20,7 +20,7 @@ export class RawUsersService {
         twitchLib.pubsub$.subscribe(value => {
             console.log({ pubsub: value })
 
-            if (value.internal) {
+            if (value.self) {
                 return;
             }
 

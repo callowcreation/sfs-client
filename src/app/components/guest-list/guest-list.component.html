@@ -77,7 +77,7 @@
                         'background-color': appearance['background-color']
                     }">&#8682;</div>
                 </span>
-                <span class="action-layout" *ngIf="mode != 'viewer'">
+                <span class="action-layout" *ngIf="mode != 'viewer' && !warning">
                     <div class="action-item remove-action-item" (click)="removeItem(guest)"
                         [ngClass]="{'action-disabled' : disableActions, '': !disableActions}"
                         title="Remove {{guest.streamer_id | twitch_user:'display_name'}}">&#x274C;</div>

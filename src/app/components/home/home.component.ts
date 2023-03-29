@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Appearance, SettingsService } from 'src/app/services/settings.service';
+import { SettingsService } from 'src/app/services/settings.service';
 import { TwitchLibService } from 'src/app/services/twitch-lib.service';
 
 @Component({

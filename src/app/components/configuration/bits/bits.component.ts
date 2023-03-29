@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { SettingsService, Tier } from 'src/app/services/settings.service';
+import { Tier } from 'src/app/interfaces/settings';
+import { SettingsService } from 'src/app/services/settings.service';
 
 @Component({
   selector: 'app-bits',

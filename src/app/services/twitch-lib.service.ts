@@ -1,6 +1,8 @@
 import { Injectable, NgZone } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { BroadcastPayload } from '../interfaces/broadcast-payload';
+import { InternalPayload } from '../interfaces/internal-payload';
 import { TwitchAuth } from '../interfaces/twitch-auth';
 import { WindowRef } from '../window-ref';
 
@@ -9,7 +11,7 @@ export interface Context {
     mode: Mode;
 }
 
-const defAuth = {
+const defAuth: TwitchAuth = {
     channelId: '',
     clientId: '',
     helixToken: '',
@@ -68,12 +70,12 @@ export class TwitchLibService {
             // console.log('--------------------------------------------------------')
             console.log({ pub_sub_message })
             // console.log('--------------------------------------------------------')
-            const { internal } = pub_sub_message;
+            const { self } = pub_sub_message;
             const { cycle, version, timestamp } = pub_sub_message.environment;
 
-            if (internal) {
+            if (self) {
                 this.zone.run(() => {
-                    console.log({internal: 'INTERNAL --->>> Received broadcast message', target, contentType, pub_sub_message, cycle: `isProduction: ${environment.production}`});
+                    console.log({self: 'selfINTERNAL --->>> Received broadcast message', target, contentType, pub_sub_message, cycle: `isProduction: ${environment.production}`});
                     this.pubsub$.next(pub_sub_message);
                 });
                 return;
@@ -94,12 +96,12 @@ export class TwitchLibService {
         });
     }
 
-    send(message: any) {
+    send(message: BroadcastPayload | InternalPayload) {
         this.ext.send('broadcast', 'application/json', JSON.stringify(attachEnvironment(message)));
     }
 }
 
-function attachEnvironment(payload: any): any {
+function attachEnvironment(payload: BroadcastPayload | InternalPayload): BroadcastPayload | InternalPayload {
     payload.environment = {
         cycle: environment.cycle,
         version: environment.version,
