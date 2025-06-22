@@ -55,12 +55,12 @@ export class GuestListComponent {
                     } else {
                         this.rawUsers.getShoutouts(auth.channelId);
                     }
-                    console.log({ migration: value })
+                    console.log({ migration: value });
                 });
         });
 
         this.twitchLib.pubsub$.subscribe(value => {
-            console.log({ pubsub: value })
+            console.log({ pubsub: value });
 
             if (value.self && value.self.disableActions) {
                 this.disableActions = value.self.disableActions;
@@ -138,7 +138,7 @@ export class GuestListComponent {
 
         bits.onTransactionComplete((transaction: TransactionObject) => {
             this.backendApi.patch<PinItem>(`/shoutouts/${this.twitchLib.authorized$.value.channelId}/${action}`, { pinner_id: transaction.userId, key: guest.key }).subscribe(value => {
-                console.log({ TransactionComplete: value })
+                console.log({ TransactionComplete: value });
             });
         });
 

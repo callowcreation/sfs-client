@@ -14,11 +14,11 @@ export class DynamicUserPipe implements PipeTransform {
         const [property] = args;
         const user: any = this.twitchUsers.user(value);
         if(user) {
-            console.log('from cache')
+            console.log('from cache');
             return of(user[property] || value);
         }
         return this.twitchApi.user(`id=${value}`).pipe(tap(user => {
-            console.log('from request')
+            console.log('from request');
             this.twitchUsers.update([user]);
         }), map((user: any) => user[property] || value));
     }

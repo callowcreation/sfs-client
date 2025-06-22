@@ -18,7 +18,7 @@ export class RawUsersService {
     constructor(twitchLib: TwitchLibService, private twitchUsers: TwitchUsersService, private backendApi: BackendApiService) {
 
         twitchLib.pubsub$.subscribe(value => {
-            console.log({ pubsub: value })
+            console.log({ pubsub: value });
 
             if (value.self) {
                 return;

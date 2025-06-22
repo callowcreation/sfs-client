@@ -3,11 +3,11 @@
     'border-color': appearance['border-color'],
     'background-color': appearance['background-color']
 }">
-    <span *ngIf="((twitchLib.context$ | async)?.mode || 'viewer') != 'viewer'" class="settings-gear" (click)="showSettings = !showSettings" title="{{showSettings ? 'Close' : 'Open'}} Configuration"><img src="gear.svg" /></span>
+    <span *ngIf="((twitchLib.context$ | async)?.mode || 'viewer') != 'viewer'" class="settings-gear" (click)="openConfiguration()" title="Open Configuration"><img src="gear.svg" /></span>
     <div class="page-header center" [ngStyle]="{'border-color': appearance['border-color']}">
         <div>Shoutouts for Streamers</div>
     </div>
     <app-guest-list [showSettings]="showSettings"></app-guest-list>
-    <app-configuration [showSettings]="showSettings"></app-configuration>
+    <!-- <app-configuration [showSettings]="showSettings"></app-configuration> -->
 
 </div>

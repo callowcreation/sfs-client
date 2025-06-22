@@ -21,6 +21,7 @@ import { GuestListComponent } from './components/guest-list/guest-list.component
 import { ErrorNoticeComponent } from './components/error-notice/error-notice.component';
 import { WarningNoticeComponent } from './components/warning-notice/warning-notice.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
+import { ConfigurationDialogComponent } from './components/configuration-dialog/configuration-dialog.component';
 import { ConfigurationComponent } from './components/configuration/configuration.component';
 import { AppearanceComponent } from './components/configuration/appearance/appearance.component';
 
@@ -65,6 +66,7 @@ const matModules: (any[] | Type<any> | ModuleWithProviders<{}>) = [
         ConfigurationComponent,
         BehaviourComponent,
         BitsComponent,
+        ConfigurationDialogComponent,
     ],
     imports: [
         BrowserModule,
